@@ -19,21 +19,21 @@ const painPoints = [
   },
 ]
 
-const features = [
+const specifications = [
   {
-    icon: Dumbbell,
-    title: "Strong",
-    body: "Desk supports up to 75kg / 165lbs without flex or wobble.",
+    title: "Space-Saving Architecture",
+    detail: "5-inch folded profile, pneumatic dampening struts",
+    benefit: "Reclaim room space",
   },
   {
-    icon: Wrench,
-    title: "Plasterboard friendly",
-    body: "30 minute DIY installation on most types of walls.",
+    title: "Fully Articulate Mount Stand",
+    detail: "Included 360° rotation, tilt, extension",
+    benefit: "Work at max efficiency",
   },
   {
-    icon: Layers,
-    title: "Sustainably made",
-    body: "87% of wood sourced from recycled and renewable sources.",
+    title: "Heavy-Duty Durability",
+    detail: "Supports weight up to 75 kg, laser-cut steel",
+    benefit: "Rock-solid stability",
   },
 ]
 
@@ -52,7 +52,7 @@ export function Benefits() {
       </div>
 
       {/* Pain points grid */}
-      <div className="mx-auto grid max-w-7xl gap-6 px-6 pb-16 md:pb-24 lg:grid-cols-2 lg:px-8">
+      <div className="mx-auto grid max-w-7xl gap-6 px-6 pb-6 md:pb-6 lg:grid-cols-2 lg:px-8">
         {painPoints.map((point) => (
           <div
             key={point.title}
@@ -64,19 +64,25 @@ export function Benefits() {
         ))}
       </div>
 
-      {/* Feature band */}
+      {/* Specifications band */}
       <div className="bg-emerald-600">
-        <div className="mx-auto grid max-w-7xl gap-6 px-6 py-16 md:py-20 lg:grid-cols-3 lg:px-8">
-          {features.map(({ icon: Icon, title, body }) => (
-            <div
-              key={title}
-              className="rounded-2xl bg-white/10 p-8 ring-1 ring-white/15"
-            >
-              <Icon className="size-9 text-white" strokeWidth={1.5} />
-              <h3 className="mt-12 text-2xl font-semibold text-white">{title}</h3>
-              <p className="mt-3 text-base leading-relaxed text-emerald-50/90">{body}</p>
-            </div>
-          ))}
+        <div className="mx-auto max-w-7xl px-6 py-16 md:py-20 lg:px-8">
+          <h2 className="text-balance text-3xl font-semibold leading-tight tracking-tight text-white sm:text-4xl">
+            Zero Compromise Engineering.
+          </h2>
+          
+          <div className="mt-12 grid gap-8 lg:grid-cols-3">
+            {specifications.map((spec) => (
+              <div
+                key={spec.title}
+                className="rounded-2xl bg-white/10 p-8 ring-1 ring-white/15"
+              >
+                <h3 className="text-xl font-semibold text-white">{spec.title}</h3>
+                <p className="mt-4 text-sm leading-relaxed text-emerald-50/90">{spec.detail}</p>
+                <p className="mt-3 text-base font-semibold text-emerald-50">{spec.benefit}</p>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </section>
