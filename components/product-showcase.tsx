@@ -1,18 +1,36 @@
 const products = [
   {
-    label: "Airdeks",
-    name: "Airdeks Duo 24",
+    label: "Airdeks Pro",
+    name: "Airdeks Pro",
     image: "/images/airdeks-duo.png",
-    specs: ["Two 24″ monitors", "Desk size 121cm × 61cm"],
-    price: "From £999.17",
-    swatches: ["#0f172a", "#1e293b", "#334155", "#475569", "#64748b"],
+    specs: [
+      "Dual Monitor Support (<=27 inches)",
+      "Dimensions: 138cm W x 60 cm H x 17 cm D",
+      "Dual Extendable Mounts",
+      "One-Cable Power",
+      "4 Power Sockets",
+      "Dual Type-C Ports",
+      "Built-in Laptop Storage",
+      "Hidden Cable Management",
+    ],
+    price: "₹24,999",
+    swatches: ["#0f172a", "#1e293b"],
   },
   {
     label: "Airdeks Light",
-    name: "Airdeks Duo 24 Light",
+    name: "Airdeks Light",
     image: "/images/airdeks-duo-light.png",
-    specs: ["Two 24″ monitors", "Desk size 121cm × 55cm"],
-    price: "From £457.50",
+    specs: [
+      "Single Screen (<=34 inches)",
+      "Dimensions: 102cm W x 59 cm H x 17 cm D",
+      "Extendable Mounts",
+      "One-Cable Powered",
+      "2 Power Sockets",
+      "Dual Type-C Ports",
+      "Built-in Laptop Storage",
+      "Hidden Cable Management",
+    ],
+    price: "₹19,999",
     swatches: ["#0f172a", "#1e293b", "#3f3f46", "#52525b", "#71717a"],
   },
 ]
@@ -36,9 +54,12 @@ function ProductCard({ product }: { product: (typeof products)[number] }) {
 
           <div>
             <h4 className="text-lg font-semibold tracking-wide text-white">{product.name}</h4>
-            <ul className="mt-4 space-y-1 text-sm leading-relaxed text-slate-400">
+            <ul className="mt-4 space-y-2 text-sm leading-relaxed text-slate-400">
               {product.specs.map((spec) => (
-                <li key={spec}>{spec}</li>
+                <li key={spec} className="flex items-start gap-3">
+                  <span className="mt-1.5 inline-flex size-1.5 flex-shrink-0 rounded-full bg-emerald-500"></span>
+                  <span>{spec}</span>
+                </li>
               ))}
             </ul>
             <p className="mt-6 text-base font-semibold text-emerald-400">{product.price}</p>
@@ -46,8 +67,9 @@ function ProductCard({ product }: { product: (typeof products)[number] }) {
         </div>
 
         {/* Swatches + CTA */}
-        <div className="mt-8 flex flex-wrap items-center justify-between gap-6 border-t border-white/10 pt-6">
-          <div className="flex items-center gap-2" aria-label="Available finishes">
+        <div className="mt-8 border-t border-white/10 pt-6">
+          {/* Color Swatches */}
+          <div className="mb-6 flex items-center gap-2" aria-label="Available finishes">
             {product.swatches.map((color, i) => (
               <span
                 key={i}
@@ -56,12 +78,27 @@ function ProductCard({ product }: { product: (typeof products)[number] }) {
               />
             ))}
           </div>
-          <a
-            href="#"
-            className="inline-flex items-center justify-center rounded-full bg-emerald-500 px-8 py-3 text-sm font-semibold tracking-wide text-slate-950 transition-colors hover:bg-emerald-400"
-          >
-            VIEW
-          </a>
+
+          {/* CTA Buttons */}
+          <div className="flex flex-col gap-4 sm:flex-row">
+            {/* Primary CTA - WhatsApp */}
+            <a
+              href="#"
+              className="flex flex-col items-center justify-center rounded-lg bg-emerald-500 px-6 py-4 text-center font-semibold tracking-wide text-slate-950 transition-colors hover:bg-emerald-400 sm:flex-1"
+            >
+              <span className="text-base">Order via WhatsApp</span>
+              <span className="mt-1 text-xs text-slate-900/70">For any other customizations.</span>
+            </a>
+
+            {/* Secondary CTA - Buy Now */}
+            <a
+              href="#"
+              className="flex flex-col items-center justify-center rounded-lg border-2 border-emerald-500/40 bg-emerald-500/10 px-6 py-4 text-center font-semibold tracking-wide text-white transition-all hover:border-emerald-500/60 hover:bg-emerald-500/20 sm:flex-1"
+            >
+              <span className="text-base">Buy Now</span>
+              <span className="mt-1 text-xs text-slate-300">Pay On Delivery</span>
+            </a>
+          </div>
         </div>
       </div>
     </div>
