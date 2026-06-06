@@ -31,7 +31,7 @@ const products = [
       "Hidden Cable Management",
     ],
     price: "₹19,999",
-    swatches: ["#0f172a", "#1e293b", "#3f3f46", "#52525b", "#71717a"],
+    swatches: ["#0f172a", "#1e293b"],
   },
 ]
 
@@ -87,7 +87,7 @@ function ProductCard({ product }: { product: (typeof products)[number] }) {
               className="flex flex-col items-center justify-center rounded-lg bg-emerald-500 px-6 py-4 text-center font-semibold tracking-wide text-slate-950 transition-colors hover:bg-emerald-400 sm:flex-1"
             >
               <span className="text-base">Order via WhatsApp</span>
-              <span className="mt-1 text-xs text-slate-900/70">For any other customizations.</span>
+              <span className="mt-1 text-xs text-slate-900/70">For any other customizations</span>
             </a>
 
             {/* Secondary CTA - Buy Now */}
