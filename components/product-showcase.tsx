@@ -2,12 +2,17 @@
 
 import { useState } from 'react'
 import { CheckoutModal } from './checkout-modal'
+import { ProductImageViewer } from './product-image-viewer'
 
 const products = [
   {
     label: "Airdeks Pro",
     name: "Airdeks Pro",
     image: "/images/airdeks-duo.png",
+    colorVariants: {
+      "#0f172a": "/images/airdeks-duo.png",
+      "#1e293b": "/images/airdeks-duo.png",
+    },
     specs: [
       "Dual Monitor Support (<=27 inches)",
       "Dimensions: 138cm W x 60 cm H x 17 cm D",
@@ -25,6 +30,13 @@ const products = [
     label: "Airdeks Light",
     name: "Airdeks Light",
     image: "/images/airdeks-duo-light.png",
+    colorVariants: {
+      "#0f172a": "/images/airdeks-duo-light.png",
+      "#1e293b": "/images/airdeks-duo-light.png",
+      "#3f3f46": "/images/airdeks-duo-light.png",
+      "#52525b": "/images/airdeks-duo-light.png",
+      "#71717a": "/images/airdeks-duo-light.png",
+    },
     specs: [
       "Single Screen (<=34 inches)",
       "Dimensions: 102cm W x 59 cm H x 17 cm D",
@@ -43,6 +55,7 @@ const products = [
 function ProductCard({ product }: { product: (typeof products)[number] }) {
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [showSuccess, setShowSuccess] = useState(false)
+  const [selectedColor, setSelectedColor] = useState(product.swatches[0])
   return (
     <div className="flex flex-col">
       <h3 className="mb-6 text-3xl font-semibold tracking-tight text-white sm:text-4xl">
@@ -51,13 +64,12 @@ function ProductCard({ product }: { product: (typeof products)[number] }) {
 
       <div className="flex flex-1 flex-col rounded-2xl border border-white/10 bg-slate-900 p-6 sm:p-8">
         <div className="grid flex-1 items-center gap-6 sm:grid-cols-2">
-          <div className="overflow-hidden rounded-xl bg-slate-950/60">
-            <img
-              src={product.image || "/placeholder.svg"}
-              alt={product.name}
-              className="aspect-square w-full object-cover"
-            />
-          </div>
+          <ProductImageViewer
+            baseImage={product.image}
+            productName={product.name}
+            selectedColor={selectedColor}
+            colorVariants={product.colorVariants}
+          />
 
           <div>
             <h4 className="text-lg font-semibold tracking-wide text-white">{product.name}</h4>
@@ -78,10 +90,16 @@ function ProductCard({ product }: { product: (typeof products)[number] }) {
           {/* Color Swatches */}
           <div className="mb-6 flex items-center gap-2" aria-label="Available finishes">
             {product.swatches.map((color, i) => (
-              <span
+              <button
                 key={i}
-                className="size-8 rounded-md border border-white/15 ring-offset-2 ring-offset-slate-900"
+                onClick={() => setSelectedColor(color)}
+                className={`size-8 rounded-md border-2 transition-all ring-offset-2 ring-offset-slate-900 ${
+                  selectedColor === color
+                    ? 'border-emerald-400 ring-2 ring-emerald-400'
+                    : 'border-white/15 hover:border-white/30'
+                }`}
                 style={{ backgroundColor: color }}
+                aria-label={`Select color variant`}
               />
             ))}
           </div>
