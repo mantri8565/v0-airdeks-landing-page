@@ -81,22 +81,22 @@ function ProductCard({ product }: { product: (typeof products)[number] }) {
 
           {/* CTA Buttons */}
           <div className="flex flex-col gap-4 sm:flex-row">
-            {/* Primary CTA */}
+            {/* Primary CTA - WhatsApp */}
             <a
               href="#"
               className="flex flex-col items-center justify-center rounded-lg bg-emerald-500 px-6 py-4 text-center font-semibold tracking-wide text-slate-950 transition-colors hover:bg-emerald-400 sm:flex-1"
             >
-              <span className="text-base">Buy Now</span>
-              <span className="mt-1 text-xs text-slate-900/70">Pay On Delivery</span>
+              <span className="text-base">Order via WhatsApp</span>
+              <span className="mt-1 text-xs text-slate-900/70">For any other customizations.</span>
             </a>
 
-            {/* Secondary CTA */}
+            {/* Secondary CTA - Buy Now */}
             <a
               href="#"
               className="flex flex-col items-center justify-center rounded-lg border border-white/20 bg-white/5 px-6 py-4 text-center font-semibold tracking-wide text-white transition-colors hover:bg-white/10 sm:flex-1"
             >
-              <span className="text-base">Order via WhatsApp</span>
-              <span className="mt-1 text-xs text-slate-400">For any other customizations.</span>
+              <span className="text-base">Buy Now</span>
+              <span className="mt-1 text-xs text-slate-400">Pay On Delivery</span>
             </a>
           </div>
         </div>
