@@ -2,7 +2,7 @@ import { Zap } from "lucide-react"
 
 export function TopBanner() {
   return (
-    <div className="bg-emerald-500 text-slate-950">
+    <div className="sticky top-0 z-50 bg-emerald-500 text-slate-950">
       <a
         href="https://wa.me/442045773550"
         target="_blank"
