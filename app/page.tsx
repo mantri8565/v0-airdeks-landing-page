@@ -1,3 +1,4 @@
+import { TopBanner } from "@/components/top-banner"
 import { SiteHeader } from "@/components/site-header"
 import { Hero } from "@/components/hero"
 import { Benefits } from "@/components/benefits"
@@ -8,7 +9,10 @@ import { SiteFooter } from "@/components/site-footer"
 export default function Page() {
   return (
     <div className="min-h-screen bg-slate-950 text-white">
-      <SiteHeader />
+      <div className="sticky top-0 z-50">
+        <TopBanner />
+        <SiteHeader />
+      </div>
       <main>
         <Hero />
         <Benefits />

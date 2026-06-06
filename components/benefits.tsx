@@ -31,7 +31,7 @@ export function Benefits() {
       {/* Intro: headline + checklist */}
       <div className="mx-auto grid max-w-7xl gap-10 px-6 py-16 md:py-24 lg:grid-cols-2 lg:gap-16 lg:px-8">
         <h2 className="text-balance text-3xl font-semibold leading-tight tracking-tight text-white sm:text-4xl lg:text-5xl">
-          A new category of home furniture designed for the way we work now.
+          Your home is for living. Your desk is for building. Don&apos;t let them fight for space.
         </h2>
 
         <ul className="flex flex-col justify-center gap-5">
