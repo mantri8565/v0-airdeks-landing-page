@@ -1,4 +1,4 @@
-import { RotateCcw, MapPin, ShieldCheck } from "lucide-react"
+import { RotateCcw, MapPin, ShieldCheck, Wallet } from "lucide-react"
 
 const badges = [
   {
@@ -16,13 +16,18 @@ const badges = [
     title: "Built to last",
     sub: "5 year warranty included",
   },
+  {
+    icon: Wallet,
+    title: "100% Pay on Delivery",
+    sub: "Pay ₹0 upfront. Inspect on delivery",
+  },
 ]
 
 export function TrustBadges() {
   return (
     <section className="border-b border-white/10">
       <div className="mx-auto max-w-7xl px-6 py-16 md:py-20 lg:px-8">
-        <div className="grid gap-8 sm:grid-cols-3">
+        <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
           {badges.map(({ icon: Icon, title, sub }) => (
             <div
               key={title}
