@@ -3,8 +3,6 @@
 import { useState } from "react"
 import { Menu, ShoppingCart, X } from "lucide-react"
 
-const navLinks = ["Home", "Airdeks", "Shop", "About Us", "Support", "Compare"]
-
 function Logo() {
   return (
     <a href="#" className="flex items-center gap-3" aria-label="Airdeks home">
@@ -16,9 +14,14 @@ function Logo() {
           <path d="M16 11v3" />
         </svg>
       </span>
-      <span className="text-lg font-semibold leading-none tracking-tight text-white">
-        Air<span className="text-emerald-400">deks</span>
-      </span>
+      <div className="flex flex-col items-start">
+        <span className="text-lg font-semibold leading-none tracking-tight text-white">
+          Air<span className="text-emerald-400">deks</span>
+        </span>
+        <span className="mt-1 text-xs font-light tracking-wider text-slate-400 uppercase">
+          For Serious Builders and Creators
+        </span>
+      </div>
     </a>
   )
 }
@@ -30,18 +33,6 @@ export function SiteHeader() {
     <header className="border-b border-white/10 bg-slate-950/80 backdrop-blur-md">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-4 px-6 md:h-20 lg:px-8">
         <Logo />
-
-        <nav className="hidden items-center gap-8 lg:flex" aria-label="Primary">
-          {navLinks.map((link) => (
-            <a
-              key={link}
-              href="#"
-              className="text-sm font-medium text-slate-300 transition-colors hover:text-emerald-400"
-            >
-              {link}
-            </a>
-          ))}
-        </nav>
 
         <div className="flex items-center gap-4">
           <a
@@ -71,19 +62,8 @@ export function SiteHeader() {
       {open && (
         <nav className="border-t border-white/10 bg-slate-950 px-6 py-4 lg:hidden" aria-label="Mobile">
           <ul className="flex flex-col gap-1">
-            {navLinks.map((link) => (
-              <li key={link}>
-                <a
-                  href="#"
-                  className="block rounded-md px-3 py-2.5 text-base font-medium text-slate-300 transition-colors hover:bg-white/5 hover:text-emerald-400"
-                  onClick={() => setOpen(false)}
-                >
-                  {link}
-                </a>
-              </li>
-            ))}
-            <li className="mt-2 border-t border-white/10 pt-3">
-              <a href="tel:+442045773550" className="block px-3 py-2 text-sm font-medium text-emerald-400">
+            <li>
+              <a href="tel:+442045773550" className="block rounded-md px-3 py-2.5 text-base font-medium text-emerald-400 transition-colors hover:bg-white/5">
                 +44 (0) 20 4577 3550
               </a>
             </li>
