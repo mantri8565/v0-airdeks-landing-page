@@ -1,7 +1,6 @@
 "use client"
 
-import { useState } from "react"
-import { Menu, ShoppingCart, X } from "lucide-react"
+import { Phone } from "lucide-react"
 
 function Logo() {
   return (
@@ -27,49 +26,30 @@ function Logo() {
 }
 
 export function SiteHeader() {
-  const [open, setOpen] = useState(false)
-
   return (
     <header className="border-b border-white/10 bg-slate-950/80 backdrop-blur-md">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-4 px-6 md:h-20 lg:px-8">
         <Logo />
 
         <div className="flex items-center gap-4">
+          {/* Desktop: Text link */}
           <a
             href="tel:+442045773550"
-            className="hidden text-sm font-medium text-slate-300 transition-colors hover:text-white xl:block"
+            className="hidden text-sm font-medium text-slate-300 transition-colors hover:text-white md:block"
           >
             +44 (0) 20 4577 3550
           </a>
-          <button
-            type="button"
-            aria-label="Cart"
-            className="flex size-10 items-center justify-center rounded-full text-slate-200 transition-colors hover:bg-white/5 hover:text-emerald-400"
+
+          {/* Mobile/Tablet: Call icon */}
+          <a
+            href="tel:+442045773550"
+            aria-label="Call us"
+            className="flex size-10 items-center justify-center rounded-full text-slate-300 transition-colors hover:bg-white/5 hover:text-emerald-400 md:hidden"
           >
-            <ShoppingCart className="size-5" />
-          </button>
-          <button
-            type="button"
-            aria-label="Toggle menu"
-            onClick={() => setOpen((v) => !v)}
-            className="flex size-10 items-center justify-center rounded-full text-slate-200 transition-colors hover:bg-white/5 lg:hidden"
-          >
-            {open ? <X className="size-5" /> : <Menu className="size-5" />}
-          </button>
+            <Phone className="size-5" />
+          </a>
         </div>
       </div>
-
-      {open && (
-        <nav className="border-t border-white/10 bg-slate-950 px-6 py-4 lg:hidden" aria-label="Mobile">
-          <ul className="flex flex-col gap-1">
-            <li>
-              <a href="tel:+442045773550" className="block rounded-md px-3 py-2.5 text-base font-medium text-emerald-400 transition-colors hover:bg-white/5">
-                +44 (0) 20 4577 3550
-              </a>
-            </li>
-          </ul>
-        </nav>
-      )}
     </header>
   )
 }
