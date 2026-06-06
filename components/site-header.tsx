@@ -13,7 +13,7 @@ function Logo() {
           <path d="M16 11v3" />
         </svg>
       </span>
-      <div className="flex flex-col items-start gap-1.5 md:gap-1">
+      <div className="flex flex-col items-start">
         <span className="text-lg font-semibold leading-tight tracking-tight text-white">
           Air<span className="text-emerald-400">deks</span>
         </span>
