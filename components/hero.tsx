@@ -12,19 +12,18 @@ export function Hero() {
             productive when it&apos;s time to focus, and present when it&apos;s time to stop.
           </p>
 
-          <div className="mt-6">
-            <p className="text-sm font-medium text-slate-200">
-              The premium, wall-mounted floating workstation with integrated, fully articulate mechanical monitor mounts. Folds completely flat to reclaim your living space.
-            </p>
-          </div>
-
           <div className="mt-8 flex w-full flex-col gap-3 sm:w-auto sm:flex-row">
-            <a
-              href="#products"
-              className="inline-flex items-center justify-center rounded-full bg-emerald-500 px-8 py-3.5 text-sm font-semibold tracking-wide text-slate-950 transition-colors hover:bg-emerald-400"
-            >
-              SHOP
-            </a>
+            <p className="mb-4 text-sm font-medium text-slate-300">
+              Starting from ₹17,999 (Includes Industrial-Grade Full-Motion Mount Stand)
+            </p>
+            <div className="w-full sm:w-auto">
+              <a
+                href="#products"
+                className="inline-flex items-center justify-center rounded-full bg-emerald-500 px-8 py-3.5 text-sm font-semibold tracking-wide text-slate-950 transition-colors hover:bg-emerald-400"
+              >
+                SHOP
+              </a>
+            </div>
           </div>
         </div>
 
