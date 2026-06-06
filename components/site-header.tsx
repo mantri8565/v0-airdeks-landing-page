@@ -13,11 +13,11 @@ function Logo() {
           <path d="M16 11v3" />
         </svg>
       </span>
-      <div className="flex flex-col items-start">
-        <span className="text-lg font-semibold leading-none tracking-tight text-white">
+      <div className="flex flex-col items-start gap-1.5 md:gap-1">
+        <span className="text-lg font-semibold leading-tight tracking-tight text-white">
           Air<span className="text-emerald-400">deks</span>
         </span>
-        <span className="mt-1 text-xs font-light tracking-wider text-slate-400 uppercase">
+        <span className="text-xs font-light leading-tight tracking-wider text-slate-400 uppercase md:mt-1">
           For Serious Builders and Creators
         </span>
       </div>
@@ -28,7 +28,7 @@ function Logo() {
 export function SiteHeader() {
   return (
     <header className="border-b border-white/10 bg-slate-950/80 backdrop-blur-md">
-      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-4 px-6 md:h-20 lg:px-8">
+      <div className="mx-auto flex h-auto max-w-7xl items-center justify-between gap-4 px-6 py-4 md:h-20 md:py-0 lg:px-8">
         <Logo />
 
         <div className="flex items-center gap-4">
