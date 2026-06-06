@@ -1,3 +1,5 @@
+import { MediaContainer } from "./media-container"
+
 export function Hero() {
   return (
     <section className="border-b border-white/10">
@@ -27,13 +29,12 @@ export function Hero() {
 
         {/* Visual */}
         <div className="relative">
-          <div className="overflow-hidden rounded-2xl border border-white/10 bg-slate-900">
-            <img
-              src="/images/airdeks-hero.png"
-              alt="Airdeks wall-mounted desk in a modern dark home office"
-              className="aspect-[4/5] w-full object-cover sm:aspect-[5/4] lg:aspect-[4/5]"
-            />
-          </div>
+          <MediaContainer
+            src="/images/airdeks-hero.png"
+            alt="Airdeks wall-mounted desk in a modern dark home office"
+            aspectRatio="custom"
+            customAspectClass="aspect-[4/5] sm:aspect-[5/4] lg:aspect-[4/5]"
+          />
         </div>
       </div>
     </section>
