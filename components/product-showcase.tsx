@@ -1,3 +1,8 @@
+'use client'
+
+import { useState } from 'react'
+import { CheckoutModal } from './checkout-modal'
+
 const products = [
   {
     label: "Airdeks Pro",
@@ -36,6 +41,8 @@ const products = [
 ]
 
 function ProductCard({ product }: { product: (typeof products)[number] }) {
+  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [showSuccess, setShowSuccess] = useState(false)
   return (
     <div className="flex flex-col">
       <h3 className="mb-6 text-3xl font-semibold tracking-tight text-white sm:text-4xl">
@@ -91,16 +98,24 @@ function ProductCard({ product }: { product: (typeof products)[number] }) {
             </a>
 
             {/* Secondary CTA - Buy Now */}
-            <a
-              href="#"
+            <button
+              onClick={() => setIsModalOpen(true)}
               className="flex flex-col items-center justify-center rounded-lg border-2 border-emerald-500/40 bg-emerald-500/10 px-6 py-4 text-center font-semibold tracking-wide text-white transition-all hover:border-emerald-500/60 hover:bg-emerald-500/20 sm:flex-1"
             >
               <span className="text-base">Buy Now</span>
               <span className="mt-1 text-xs text-slate-300">Pay On Delivery</span>
-            </a>
+            </button>
           </div>
         </div>
       </div>
+
+      {/* Checkout Modal */}
+      <CheckoutModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        productName={product.name}
+        onSuccess={() => setShowSuccess(true)}
+      />
     </div>
   )
 }
