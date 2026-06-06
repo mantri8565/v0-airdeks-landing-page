@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { Play, Pause } from 'lucide-react'
+import { Play, Pause, ChevronLeft, ChevronRight } from 'lucide-react'
 
 const mediaItems = [
   {
@@ -36,9 +36,18 @@ const mediaItems = [
 
 export function MediaShowcase() {
   const [playingVideoId, setPlayingVideoId] = useState<number | null>(null)
+  const [currentIndex, setCurrentIndex] = useState(0)
 
   const toggleVideoPlay = (id: number) => {
     setPlayingVideoId(playingVideoId === id ? null : id)
+  }
+
+  const handlePrev = () => {
+    setCurrentIndex((prev) => (prev === 0 ? mediaItems.length - 1 : prev - 1))
+  }
+
+  const handleNext = () => {
+    setCurrentIndex((prev) => (prev === mediaItems.length - 1 ? 0 : prev + 1))
   }
 
   return (
@@ -53,8 +62,91 @@ export function MediaShowcase() {
           </p>
         </div>
 
-        {/* Media Grid */}
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        {/* Mobile Carousel */}
+        <div className="relative sm:hidden">
+          <div className="flex overflow-hidden rounded-lg">
+            {mediaItems.map((item, index) => (
+              <div
+                key={item.id}
+                className="w-full flex-shrink-0 transition-transform duration-300 ease-out"
+                style={{
+                  transform: `translateX(${(index - currentIndex) * 100}%)`,
+                }}
+              >
+                <div className="group relative overflow-hidden rounded-lg bg-slate-900/50 ring-1 ring-white/10">
+                  {/* Media Container */}
+                  <div className="aspect-square w-full overflow-hidden bg-slate-950">
+                    {item.type === 'image' ? (
+                      <img
+                        src={item.src}
+                        alt={item.alt}
+                        className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-110"
+                      />
+                    ) : (
+                      <>
+                        <video
+                          src={item.src}
+                          className="h-full w-full object-cover"
+                          autoPlay={playingVideoId === item.id}
+                          controls={playingVideoId === item.id}
+                        />
+                        <button
+                          onClick={() => toggleVideoPlay(item.id)}
+                          className="absolute inset-0 flex items-center justify-center bg-black/40 transition-all group-hover:bg-black/50"
+                          aria-label={playingVideoId === item.id ? 'Pause video' : 'Play video'}
+                        >
+                          {playingVideoId === item.id ? (
+                            <Pause className="h-12 w-12 text-white" />
+                          ) : (
+                            <Play className="h-12 w-12 text-white" />
+                          )}
+                        </button>
+                      </>
+                    )}
+                  </div>
+
+                  {/* Title Overlay */}
+                  <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-4 pt-12">
+                    <h3 className="text-sm font-semibold text-white">{item.title}</h3>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Navigation Buttons */}
+          <button
+            onClick={handlePrev}
+            aria-label="Previous media"
+            className="absolute left-2 top-1/2 z-10 -translate-y-1/2 rounded-full bg-black/50 p-2 text-white transition-all hover:bg-black/70"
+          >
+            <ChevronLeft className="h-5 w-5" />
+          </button>
+          <button
+            onClick={handleNext}
+            aria-label="Next media"
+            className="absolute right-2 top-1/2 z-10 -translate-y-1/2 rounded-full bg-black/50 p-2 text-white transition-all hover:bg-black/70"
+          >
+            <ChevronRight className="h-5 w-5" />
+          </button>
+
+          {/* Dots Indicator */}
+          <div className="mt-4 flex justify-center gap-2">
+            {mediaItems.map((_, index) => (
+              <button
+                key={index}
+                onClick={() => setCurrentIndex(index)}
+                className={`h-2 rounded-full transition-all ${
+                  index === currentIndex ? 'w-6 bg-emerald-400' : 'w-2 bg-white/30 hover:bg-white/50'
+                }`}
+                aria-label={`Go to slide ${index + 1}`}
+              />
+            ))}
+          </div>
+        </div>
+
+        {/* Desktop Grid */}
+        <div className="hidden gap-6 sm:grid sm:grid-cols-2 lg:grid-cols-4">
           {mediaItems.map((item) => (
             <div
               key={item.id}
