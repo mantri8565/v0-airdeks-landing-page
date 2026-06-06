@@ -18,10 +18,19 @@ const products = [
   },
   {
     label: "Airdeks Light",
-    name: "Airdeks Duo 24 Light",
+    name: "Airdeks Light",
     image: "/images/airdeks-duo-light.png",
-    specs: ["Two 24″ monitors", "Desk size 121cm × 55cm"],
-    price: "From £457.50",
+    specs: [
+      "Single Screen (<=34 inches)",
+      "Dimensions: 102cm W x 59 cm H x 17 cm D",
+      "Extendable Mounts",
+      "One-Cable Powered",
+      "2 Power Sockets",
+      "Dual Type-C Ports",
+      "Built-in Laptop Storage",
+      "Hidden Cable Management",
+    ],
+    price: "₹19,999",
     swatches: ["#0f172a", "#1e293b", "#3f3f46", "#52525b", "#71717a"],
   },
 ]
