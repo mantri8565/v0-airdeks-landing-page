@@ -39,7 +39,7 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en" className={`${inter.variable} dark`}>
+    <html lang="en" className={`${inter.variable} dark scroll-smooth`}>
       <body className="bg-slate-950 font-sans antialiased">
         {children}
         {process.env.NODE_ENV === 'production' && <Analytics />}
