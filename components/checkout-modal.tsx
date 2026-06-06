@@ -7,6 +7,7 @@ interface CheckoutModalProps {
   isOpen: boolean
   onClose: () => void
   productName: string
+  selectedColor?: string
   onSuccess: () => void
 }
 
@@ -22,7 +23,8 @@ interface Errors {
   [key: string]: string
 }
 
-export function CheckoutModal({ isOpen, onClose, productName, onSuccess }: CheckoutModalProps) {
+export function CheckoutModal({ isOpen, onClose, productName, selectedColor, onSuccess }: CheckoutModalProps) {
+  const productDisplayName = selectedColor ? `${productName} - ${selectedColor}` : productName
   const [formData, setFormData] = useState<FormData>({
     name: '',
     email: '',
@@ -133,7 +135,7 @@ export function CheckoutModal({ isOpen, onClose, productName, onSuccess }: Check
           <div className="mb-8">
             <h2 className="text-2xl font-bold text-white">Secure Your Airdeks Workspace</h2>
             <p className="mt-2 text-sm text-slate-300">
-              Complete your shipping profile below to reserve your unit. No credit card or advance
+              Complete your shipping profile below to reserve your {productDisplayName}. No credit card or advance
               digital payment required.
             </p>
           </div>
@@ -266,7 +268,7 @@ export function CheckoutModal({ isOpen, onClose, productName, onSuccess }: Check
               <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-emerald-500/20">
                 <div className="h-8 w-8 rounded-full bg-emerald-500"></div>
               </div>
-              <h2 className="text-2xl font-bold">Your {productName} Workspace is Reserved.</h2>
+              <h2 className="text-2xl font-bold">Your {productDisplayName} Workspace is Reserved.</h2>
             </div>
 
             {/* Important Allocation Notice */}

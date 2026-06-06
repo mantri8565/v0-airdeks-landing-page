@@ -13,6 +13,10 @@ const products = [
       "#0f172a": "/images/airdeks-duo.png",
       "#1e293b": "/images/airdeks-duo.png",
     },
+    colorNames: {
+      "#0f172a": "Deep Night",
+      "#1e293b": "Slate Gray",
+    },
     specs: [
       "Dual Monitor Support (<=27 inches)",
       "Dimensions: 138cm W x 60 cm H x 17 cm D",
@@ -37,6 +41,13 @@ const products = [
       "#52525b": "/images/airdeks-duo-light.png",
       "#71717a": "/images/airdeks-duo-light.png",
     },
+    colorNames: {
+      "#0f172a": "Deep Night",
+      "#1e293b": "Slate Gray",
+      "#3f3f46": "Stone",
+      "#52525b": "Carbon",
+      "#71717a": "Ash",
+    },
     specs: [
       "Single Screen (<=34 inches)",
       "Dimensions: 102cm W x 59 cm H x 17 cm D",
@@ -56,6 +67,8 @@ function ProductCard({ product }: { product: (typeof products)[number] }) {
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [showSuccess, setShowSuccess] = useState(false)
   const [selectedColor, setSelectedColor] = useState(product.swatches[0])
+  const [hoveredColor, setHoveredColor] = useState<string | null>(null)
+
   return (
     <div className="flex flex-col">
       <h3 className="mb-6 text-3xl font-semibold tracking-tight text-white sm:text-4xl">
@@ -63,14 +76,47 @@ function ProductCard({ product }: { product: (typeof products)[number] }) {
       </h3>
 
       <div className="flex flex-1 flex-col rounded-2xl border border-white/10 bg-slate-900 p-6 sm:p-8">
-        <div className="grid flex-1 items-center gap-6 sm:grid-cols-2">
-          <ProductImageViewer
-            baseImage={product.image}
-            productName={product.name}
-            selectedColor={selectedColor}
-            colorVariants={product.colorVariants}
-          />
+        {/* Image + Specs Grid */}
+        <div className="grid flex-1 items-start gap-6 sm:grid-cols-2">
+          {/* Left Column: Image + Color Swatches */}
+          <div className="flex flex-col gap-6">
+            <ProductImageViewer
+              baseImage={product.image}
+              productName={product.name}
+              selectedColor={selectedColor}
+              colorVariants={product.colorVariants}
+            />
 
+            {/* Color Swatches below image */}
+            <div className="flex flex-col gap-3">
+              <p className="text-xs font-semibold uppercase tracking-widest text-slate-400">Color</p>
+              <div className="flex items-center gap-3" aria-label="Available finishes">
+                {product.swatches.map((color, i) => (
+                  <div key={i} className="relative">
+                    <button
+                      onClick={() => setSelectedColor(color)}
+                      onMouseEnter={() => setHoveredColor(color)}
+                      onMouseLeave={() => setHoveredColor(null)}
+                      className={`size-10 rounded-md border-2 transition-all ring-offset-2 ring-offset-slate-900 ${
+                        selectedColor === color
+                          ? 'border-emerald-400 ring-2 ring-emerald-400'
+                          : 'border-white/15 hover:border-white/30'
+                      }`}
+                      style={{ backgroundColor: color }}
+                      aria-label={`Select ${product.colorNames[color as keyof typeof product.colorNames]} color`}
+                    />
+                    {hoveredColor === color && (
+                      <div className="absolute bottom-full left-1/2 mb-2 -translate-x-1/2 whitespace-nowrap rounded-md bg-slate-800 px-3 py-1.5 text-xs font-medium text-white ring-1 ring-white/10">
+                        {product.colorNames[color as keyof typeof product.colorNames]}
+                      </div>
+                    )}
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* Right Column: Specs and Price */}
           <div>
             <h4 className="text-lg font-semibold tracking-wide text-white">{product.name}</h4>
             <ul className="mt-4 space-y-2 text-sm leading-relaxed text-slate-400">
@@ -85,26 +131,8 @@ function ProductCard({ product }: { product: (typeof products)[number] }) {
           </div>
         </div>
 
-        {/* Swatches + CTA */}
+        {/* CTA Buttons */}
         <div className="mt-8 border-t border-white/10 pt-6">
-          {/* Color Swatches */}
-          <div className="mb-6 flex items-center gap-2" aria-label="Available finishes">
-            {product.swatches.map((color, i) => (
-              <button
-                key={i}
-                onClick={() => setSelectedColor(color)}
-                className={`size-8 rounded-md border-2 transition-all ring-offset-2 ring-offset-slate-900 ${
-                  selectedColor === color
-                    ? 'border-emerald-400 ring-2 ring-emerald-400'
-                    : 'border-white/15 hover:border-white/30'
-                }`}
-                style={{ backgroundColor: color }}
-                aria-label={`Select color variant`}
-              />
-            ))}
-          </div>
-
-          {/* CTA Buttons */}
           <div className="flex flex-col gap-4 sm:flex-row">
             {/* Primary CTA - WhatsApp */}
             <a
@@ -132,6 +160,7 @@ function ProductCard({ product }: { product: (typeof products)[number] }) {
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
         productName={product.name}
+        selectedColor={product.colorNames[selectedColor as keyof typeof product.colorNames]}
         onSuccess={() => setShowSuccess(true)}
       />
     </div>
