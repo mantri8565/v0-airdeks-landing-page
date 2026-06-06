@@ -12,18 +12,17 @@ export function Hero() {
             productive when it&apos;s time to focus, and present when it&apos;s time to stop.
           </p>
 
-          <div className="mt-8 flex w-full flex-col gap-3 sm:w-auto sm:flex-row">
-            <p className="mb-4 text-sm font-medium text-slate-300">
-              Starting from ₹17,999 (Includes Industrial-Grade Full-Motion Mount Stand)
-            </p>
-            <div className="w-full sm:w-auto">
-              <a
-                href="#products"
-                className="inline-flex items-center justify-center rounded-full bg-emerald-500 px-8 py-3.5 text-sm font-semibold tracking-wide text-slate-950 transition-colors hover:bg-emerald-400"
-              >
-                SHOP
-              </a>
-            </div>
+          <p className="mt-8 text-sm font-medium text-slate-300">
+            Starting from ₹17,999 (Includes Industrial-Grade Full-Motion Mount Stand)
+          </p>
+
+          <div className="mt-4 flex w-full flex-col gap-3 sm:w-auto sm:flex-row">
+            <a
+              href="#products"
+              className="inline-flex items-center justify-center rounded-full bg-emerald-500 px-8 py-3.5 text-sm font-semibold tracking-wide text-slate-950 transition-colors hover:bg-emerald-400"
+            >
+              SHOP
+            </a>
           </div>
         </div>
 
