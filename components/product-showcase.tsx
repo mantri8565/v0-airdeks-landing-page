@@ -49,7 +49,7 @@ function ProductCard({ product }: { product: (typeof products)[number] }) {
               {product.specs.map((spec) => (
                 <li key={spec} className="flex items-start gap-3">
                   <span className="mt-1.5 inline-flex size-1.5 flex-shrink-0 rounded-full bg-emerald-500"></span>
-                  <span className="truncate">{spec}</span>
+                  <span>{spec}</span>
                 </li>
               ))}
             </ul>
