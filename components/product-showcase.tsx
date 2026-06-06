@@ -45,9 +45,12 @@ function ProductCard({ product }: { product: (typeof products)[number] }) {
 
           <div>
             <h4 className="text-lg font-semibold tracking-wide text-white">{product.name}</h4>
-            <ul className="mt-4 space-y-1 text-sm leading-relaxed text-slate-400">
+            <ul className="mt-4 space-y-2 text-sm leading-relaxed text-slate-400">
               {product.specs.map((spec) => (
-                <li key={spec}>{spec}</li>
+                <li key={spec} className="flex items-start gap-3">
+                  <span className="mt-1.5 inline-flex size-1.5 flex-shrink-0 rounded-full bg-emerald-500"></span>
+                  <span className="truncate">{spec}</span>
+                </li>
               ))}
             </ul>
             <p className="mt-6 text-base font-semibold text-emerald-400">{product.price}</p>
