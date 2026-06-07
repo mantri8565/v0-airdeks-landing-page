@@ -9,28 +9,28 @@ const mediaItems = [
     type: 'image',
     src: '/media/img/airdeks best dual.jpg',
     alt: 'Product showcase 1',
-    title: '',
+    title: 'Mobile Setup',
   },
   {
     id: 2,
-    type: 'image',
-    src: '/media/img/open airdeks.jpg',
+    type: 'video',
+    src: '/media/videos/shoot1.mp4',
     alt: 'Product showcase 2',
-    title: '',
+    title: 'Tablet Setup',
   },
   {
     id: 3,
-    type: 'image',
+    type: 'video',
     src: '/media/videos/shoot1.mp4',
     alt: 'Product showcase 3',
-    title: '',
+    title: 'Desktop Setup',
   },
   {
     id: 4,
     type: 'image',
     src: '/media/img/side_view_indian.jpg',
     alt: 'Product showcase 4',
-    title: '',
+    title: 'Work Environment',
   },
 ]
 
@@ -85,10 +85,14 @@ export function MediaShowcase() {
                     ) : (
                       <>
                         <video
+                          key={`video-${item.id}`}
                           src={item.src}
                           className="h-full w-full object-cover"
                           autoPlay={playingVideoId === item.id}
                           controls={playingVideoId === item.id}
+                          muted
+                          loop
+                          playsInline
                         />
                         <button
                           onClick={() => toggleVideoPlay(item.id)}
@@ -163,10 +167,14 @@ export function MediaShowcase() {
                 ) : (
                   <>
                     <video
+                      key={`video-${item.id}`}
                       src={item.src}
                       className="h-full w-full object-cover"
                       autoPlay={playingVideoId === item.id}
                       controls={playingVideoId === item.id}
+                      muted
+                      loop
+                      playsInline
                     />
                     <button
                       onClick={() => toggleVideoPlay(item.id)}
