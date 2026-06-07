@@ -41,8 +41,8 @@ export function ProductImageViewer({
   // Preload all images on component mount and when color changes
   useEffect(() => {
     if (selectedColor && colorVariants && colorVariants[selectedColor]) {
-      const images = Array.isArray(colorVariants[selectedColor]) 
-        ? colorVariants[selectedColor] 
+      const images = Array.isArray(colorVariants[selectedColor])
+        ? colorVariants[selectedColor]
         : [colorVariants[selectedColor]]
       preloadImages(images)
     }
@@ -60,8 +60,8 @@ export function ProductImageViewer({
   useEffect(() => {
     if (selectedColor && colorVariants && colorVariants[selectedColor]) {
       // If colorVariants[selectedColor] is an array, use it directly
-      const images = Array.isArray(colorVariants[selectedColor]) 
-        ? colorVariants[selectedColor] 
+      const images = Array.isArray(colorVariants[selectedColor])
+        ? colorVariants[selectedColor]
         : [colorVariants[selectedColor]]
       setImageViews(images)
       setDisplayImage(images[0])
@@ -203,11 +203,6 @@ export function ProductImageViewer({
             {/* Image Counter */}
             <div className="mt-4 text-center text-sm text-white/70">
               Image {currentImageIndex + 1} of {imageViews.length}
-            </div>
-
-            {/* Keyboard Hints */}
-            <div className="mt-2 text-center text-xs text-white/50">
-              Use arrow keys to navigate, ESC to close
             </div>
           </div>
         </div>
