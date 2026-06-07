@@ -10,7 +10,7 @@ export function Hero() {
             Engineered for Deep Work.<br />Designed for Limited Space.
           </h1>
           <p className="mt-6 max-w-md text-pretty text-base leading-relaxed text-slate-400 sm:text-lg">
-            Airdeks is a premium wall-mounted folding desk that hides your workspace completely. — stay hyper-productive when building, and entirely present the moment you log off.
+            Airdeks is a premium wall-mounted folding desk that hides your workspace completely — stay hyper-productive when building, and entirely present the moment you log off.
           </p>
 
           <p className="mt-8 text-sm font-medium text-slate-300">

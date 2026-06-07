@@ -7,8 +7,8 @@ const footerCols = [
 export function SiteFooter() {
   return (
     <footer className="bg-slate-950">
-      <div className="mx-auto max-w-7xl px-6 py-16 lg:px-8">
-        <div className="grid gap-10 md:grid-cols-2 lg:grid-cols-4">
+      <div className="mx-auto max-w-7xl px-6 py-8 lg:px-8">
+        {/*<div className="grid gap-10 md:grid-cols-2 lg:grid-cols-4">
           <div>
             <div className="flex items-center gap-3">
               <span className="flex size-9 items-center justify-center rounded-md bg-emerald-500">
@@ -44,14 +44,11 @@ export function SiteFooter() {
             </div>
           ))}
         </div>
-
-        <div className="mt-12 flex flex-col items-start justify-between gap-4 border-t border-white/10 pt-8 sm:flex-row sm:items-center">
-          <p className="text-sm text-slate-500">© {new Date().getFullYear()} Airdeks. All rights reserved.</p>
-          <div className="flex gap-6">
-            <a href="#" className="text-sm text-slate-500 transition-colors hover:text-slate-300">Privacy</a>
-            <a href="#" className="text-sm text-slate-500 transition-colors hover:text-slate-300">Terms</a>
-          </div>
-        </div>
+        */}
+        <p className="text-sm text-slate-500">© {new Date().getFullYear()} Airdeks Pvt Ltd. All rights reserved.</p>
+        {/*<div className="mt-12 flex flex-col items-start justify-between gap-4 border-t border-white/10 pt-8 sm:flex-row sm:items-center">
+            <p className="text-sm text-slate-500">© {new Date().getFullYear()} Airdeks Pvt Ltd. All rights reserved.</p>
+        </div>*/}
       </div>
     </footer>
   )

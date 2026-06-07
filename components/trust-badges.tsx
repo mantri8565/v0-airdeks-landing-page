@@ -8,13 +8,13 @@ const badges = [
   },
   {
     icon: MapPin,
-    title: "Made in Britain",
-    sub: "Engineered and assembled in the UK",
+    title: "Made in India",
+    sub: "Proudly engineered and assembled in India",
   },
   {
     icon: ShieldCheck,
     title: "Built to last",
-    sub: "5 year warranty included",
+    sub: "10 year warranty included",
   },
   {
     icon: Wallet,
