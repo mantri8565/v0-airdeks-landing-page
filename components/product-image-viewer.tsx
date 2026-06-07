@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import Image from 'next/image'
-import { X, ChevronLeft, ChevronRight } from 'lucide-react'
+import { X, ChevronLeft, ChevronRight, Loader2 } from 'lucide-react'
 
 interface ProductImageViewerProps {
   baseImage: string
@@ -23,6 +23,7 @@ export function ProductImageViewer({
   const [currentImageIndex, setCurrentImageIndex] = useState(0)
   const [displayImage, setDisplayImage] = useState(baseImage)
   const [imageViews, setImageViews] = useState<string[]>([baseImage])
+  const [loadingImageIndex, setLoadingImageIndex] = useState<number | null>(null)
 
   // Update image views and display image when color changes
   useEffect(() => {
@@ -45,6 +46,7 @@ export function ProductImageViewer({
   const handlePrevImage = () => {
     setCurrentImageIndex((prev) => {
       const newIndex = prev === 0 ? imageViews.length - 1 : prev - 1
+      setLoadingImageIndex(newIndex)
       setDisplayImage(imageViews[newIndex])
       return newIndex
     })
@@ -53,6 +55,7 @@ export function ProductImageViewer({
   const handleNextImage = () => {
     setCurrentImageIndex((prev) => {
       const newIndex = prev === imageViews.length - 1 ? 0 : prev + 1
+      setLoadingImageIndex(newIndex)
       setDisplayImage(imageViews[newIndex])
       return newIndex
     })
@@ -76,6 +79,14 @@ export function ProductImageViewer({
       return () => window.removeEventListener('keydown', handleKeyDown)
     }
   }, [isZoomed])
+
+  // Reset to default image when zoom is closed
+  const handleCloseZoom = () => {
+    setIsZoomed(false)
+    setCurrentImageIndex(0)
+    setDisplayImage(imageViews[0] || baseImage)
+    setLoadingImageIndex(null)
+  }
 
   return (
     <>
@@ -112,7 +123,7 @@ export function ProductImageViewer({
           <div className="relative max-h-screen max-w-4xl w-full flex flex-col items-center justify-center">
             {/* Close Button */}
             <button
-              onClick={() => setIsZoomed(false)}
+              onClick={handleCloseZoom}
               className="absolute top-4 right-4 z-10 rounded-full bg-white/10 p-2 hover:bg-white/20 transition-colors"
               aria-label="Close zoom view"
             >
@@ -121,10 +132,16 @@ export function ProductImageViewer({
 
             {/* Image Container */}
             <div className="relative w-full flex items-center justify-center">
+              {loadingImageIndex === currentImageIndex && (
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <Loader2 className="size-8 text-white animate-spin" />
+                </div>
+              )}
               <img
                 src={displayImage || '/placeholder.svg'}
                 alt={`${productName} - zoomed view ${currentImageIndex + 1}`}
                 className="max-h-[80vh] w-auto object-contain"
+                onLoad={() => setLoadingImageIndex(null)}
               />
 
               {/* Navigation Arrows */}
