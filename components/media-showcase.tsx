@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { Play, Pause, ChevronLeft, ChevronRight } from 'lucide-react'
+import { ChevronLeft, ChevronRight } from 'lucide-react'
 
 const mediaItems = [
   {
@@ -9,38 +9,33 @@ const mediaItems = [
     type: 'image',
     src: '/media/img/airdeks best dual.jpg',
     alt: 'Product showcase 1',
-    title: '',
+    title: 'Mobile Setup',
   },
   {
     id: 2,
     type: 'video',
     src: '/media/videos/shoot1.mp4',
     alt: 'Product showcase 2',
-    title: '',
+    title: 'Tablet Setup',
   },
   {
     id: 3,
-    type: 'image',
-    src: '/media/img/open airdeks.jpg',
+    type: 'video',
+    src: '/media/videos/shoot1.mp4',
     alt: 'Product showcase 3',
-    title: '',
+    title: 'Desktop Setup',
   },
   {
     id: 4,
     type: 'image',
     src: '/media/img/side_view_indian.jpg',
     alt: 'Product showcase 4',
-    title: '',
+    title: 'Work Environment',
   },
 ]
 
 export function MediaShowcase() {
-  const [playingVideoId, setPlayingVideoId] = useState<number | null>(null)
   const [currentIndex, setCurrentIndex] = useState(0)
-
-  const toggleVideoPlay = (id: number) => {
-    setPlayingVideoId(playingVideoId === id ? null : id)
-  }
 
   const handlePrev = () => {
     setCurrentIndex((prev) => (prev === 0 ? mediaItems.length - 1 : prev - 1))
@@ -64,13 +59,13 @@ export function MediaShowcase() {
 
         {/* Mobile Carousel */}
         <div className="relative sm:hidden">
-          <div className="flex overflow-hidden rounded-lg">
+          <div className="flex overflow-hidden rounded-lg bg-slate-950">
             {mediaItems.map((item, index) => (
               <div
                 key={item.id}
-                className="w-full flex-shrink-0 transition-transform duration-300 ease-out"
+                className="min-w-full flex-shrink-0 transition-transform duration-300 ease-out"
                 style={{
-                  transform: `translateX(${(index - currentIndex) * 100}%)`,
+                  transform: `translateX(-${currentIndex * 100}%)`,
                 }}
               >
                 <div className="group relative overflow-hidden rounded-lg bg-slate-900/50 ring-1 ring-white/10">
@@ -83,29 +78,15 @@ export function MediaShowcase() {
                         className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-110"
                       />
                     ) : (
-                      <>
-                        <video
-                          key={`video-${item.id}`}
-                          src={item.src}
-                          className="h-full w-full object-cover"
-                          autoPlay={playingVideoId === item.id}
-                          controls={playingVideoId === item.id}
-                          muted
-                          loop
-                          playsInline
-                        />
-                        <button
-                          onClick={() => toggleVideoPlay(item.id)}
-                          className="absolute inset-0 flex items-center justify-center bg-black/40 transition-all group-hover:bg-black/50"
-                          aria-label={playingVideoId === item.id ? 'Pause video' : 'Play video'}
-                        >
-                          {playingVideoId === item.id ? (
-                            <Pause className="h-12 w-12 text-white" />
-                          ) : (
-                            <Play className="h-12 w-12 text-white" />
-                          )}
-                        </button>
-                      </>
+                      <video
+                        key={`video-${item.id}-${currentIndex}`}
+                        src={item.src}
+                        className="h-full w-full object-cover"
+                        autoPlay
+                        muted
+                        loop
+                        playsInline
+                      />
                     )}
                   </div>
 
@@ -165,29 +146,15 @@ export function MediaShowcase() {
                     className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-110"
                   />
                 ) : (
-                  <>
-                    <video
-                      key={`video-${item.id}`}
-                      src={item.src}
-                      className="h-full w-full object-cover"
-                      autoPlay={playingVideoId === item.id}
-                      controls={playingVideoId === item.id}
-                      muted
-                      loop
-                      playsInline
-                    />
-                    <button
-                      onClick={() => toggleVideoPlay(item.id)}
-                      className="absolute inset-0 flex items-center justify-center bg-black/40 transition-all group-hover:bg-black/50"
-                      aria-label={playingVideoId === item.id ? 'Pause video' : 'Play video'}
-                    >
-                      {playingVideoId === item.id ? (
-                        <Pause className="h-12 w-12 text-white" />
-                      ) : (
-                        <Play className="h-12 w-12 text-white" />
-                      )}
-                    </button>
-                  </>
+                  <video
+                    key={`video-${item.id}`}
+                    src={item.src}
+                    className="h-full w-full object-cover"
+                    autoPlay
+                    muted
+                    loop
+                    playsInline
+                  />
                 )}
               </div>
 
