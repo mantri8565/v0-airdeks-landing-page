@@ -1,7 +1,20 @@
 'use client'
 
-import { useState } from 'react'
-import { Play, Pause, ChevronLeft, ChevronRight } from 'lucide-react'
+import { useState, useEffect } from 'react'
+import { ChevronLeft, ChevronRight, Loader2 } from 'lucide-react'
+
+// Utility function to preload images and videos in background
+const preloadMedia = (mediaSources: string[]) => {
+  if (typeof window === 'undefined') return
+
+  mediaSources.forEach((src) => {
+    const link = document.createElement('link')
+    link.rel = 'preload'
+    link.as = src.endsWith('.mp4') || src.endsWith('.webm') || src.endsWith('.mov') ? 'video' : 'image'
+    link.href = src
+    document.head.appendChild(link)
+  })
+}
 
 const mediaItems = [
   {
@@ -9,47 +22,60 @@ const mediaItems = [
     type: 'image',
     src: '/media/img/airdeks best dual.jpg',
     alt: 'Product showcase 1',
-    title: 'Mobile Setup',
+    title: null,
   },
   {
     id: 2,
-    type: 'video',
-    src: '/media/videos/shoot1.mp4',
+    type: 'image',
+    src: '/media/img/open airdeks.jpg',
     alt: 'Product showcase 2',
-    title: 'Tablet Setup',
+    title: null,
   },
   {
     id: 3,
     type: 'video',
     src: '/media/videos/shoot1.mp4',
     alt: 'Product showcase 3',
-    title: 'Desktop Setup',
+    title: null,
   },
   {
     id: 4,
     type: 'image',
     src: '/media/img/side_view_indian.jpg',
     alt: 'Product showcase 4',
-    title: 'Work Environment',
+    title: null,
   },
 ]
 
 export function MediaShowcase() {
-  const [playingVideoId, setPlayingVideoId] = useState<number | null>(null)
   const [currentIndex, setCurrentIndex] = useState(0)
-
-  const toggleVideoPlay = (id: number) => {
-    setPlayingVideoId(playingVideoId === id ? null : id)
-  }
+  const [isLoading, setIsLoading] = useState(true)
 
   const handlePrev = () => {
     setCurrentIndex((prev) => (prev === 0 ? mediaItems.length - 1 : prev - 1))
+    setIsLoading(true)
   }
 
   const handleNext = () => {
     setCurrentIndex((prev) => (prev === mediaItems.length - 1 ? 0 : prev + 1))
+    setIsLoading(true)
   }
 
+  // Keyboard navigation
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'ArrowLeft') handlePrev()
+      if (e.key === 'ArrowRight') handleNext()
+    }
+    window.addEventListener('keydown', handleKeyDown)
+    return () => window.removeEventListener('keydown', handleKeyDown)
+  }, [])
+
+  // Preload all media on mount
+  useEffect(() => {
+    const mediaSources = mediaItems.map((item) => item.src)
+    preloadMedia(mediaSources)
+  }, [])
   return (
     <section className="border-b border-white/10">
       <div className="mx-auto max-w-7xl px-6 py-16 md:py-24 lg:px-8">
@@ -64,72 +90,56 @@ export function MediaShowcase() {
 
         {/* Mobile Carousel */}
         <div className="relative sm:hidden">
-          <div className="flex overflow-hidden rounded-lg">
-            {mediaItems.map((item, index) => (
-              <div
-                key={item.id}
-                className="w-full flex-shrink-0 transition-transform duration-300 ease-out"
-                style={{
-                  transform: `translateX(${(index - currentIndex) * 100}%)`,
-                }}
-              >
-                <div className="group relative overflow-hidden rounded-lg bg-slate-900/50 ring-1 ring-white/10">
-                  {/* Media Container */}
-                  <div className="aspect-square w-full overflow-hidden bg-slate-950">
-                    {item.type === 'image' ? (
-                      <img
-                        src={item.src}
-                        alt={item.alt}
-                        className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-110"
-                      />
-                    ) : (
-                      <>
-                        <video
-                          key={`video-${item.id}`}
-                          src={item.src}
-                          className="h-full w-full object-cover"
-                          autoPlay={playingVideoId === item.id}
-                          controls={playingVideoId === item.id}
-                          muted
-                          loop
-                          playsInline
-                        />
-                        <button
-                          onClick={() => toggleVideoPlay(item.id)}
-                          className="absolute inset-0 flex items-center justify-center bg-black/40 transition-all group-hover:bg-black/50"
-                          aria-label={playingVideoId === item.id ? 'Pause video' : 'Play video'}
-                        >
-                          {playingVideoId === item.id ? (
-                            <Pause className="h-12 w-12 text-white" />
-                          ) : (
-                            <Play className="h-12 w-12 text-white" />
-                          )}
-                        </button>
-                      </>
-                    )}
-                  </div>
-
-                  {/* Title Overlay */}
-                  <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-4 pt-12">
-                    <h3 className="text-sm font-semibold text-white">{item.title}</h3>
-                  </div>
+          <div className="overflow-hidden rounded-lg bg-slate-950">
+            <div className="relative aspect-square w-full">
+              {/* Loading Spinner */}
+              {isLoading && (
+                <div className="absolute inset-0 flex items-center justify-center bg-black/30 z-20">
+                  <Loader2 className="h-8 w-8 text-white animate-spin" />
                 </div>
-              </div>
-            ))}
+              )}
+
+              {mediaItems[currentIndex].type === 'image' ? (
+                <img
+                  src={mediaItems[currentIndex].src}
+                  alt={mediaItems[currentIndex].alt}
+                  className="h-full w-full object-cover"
+                  onLoad={() => setIsLoading(false)}
+                />
+              ) : (
+                <video
+                  src={mediaItems[currentIndex].src}
+                  className="h-full w-full object-cover"
+                  autoPlay
+                  muted
+                  loop
+                  controls
+                  playsInline
+                  onLoadedMetadata={() => setIsLoading(false)}
+                />
+              )}
+
+              {/* Title Overlay */}
+              {mediaItems[currentIndex].title && (
+                <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-4 pt-12">
+                  <h3 className="text-sm font-semibold text-white">{mediaItems[currentIndex].title}</h3>
+                </div>
+              )}
+            </div>
           </div>
 
           {/* Navigation Buttons */}
           <button
             onClick={handlePrev}
             aria-label="Previous media"
-            className="absolute left-2 top-1/2 z-10 -translate-y-1/2 rounded-full bg-black/50 p-2 text-white transition-all hover:bg-black/70"
+            className="absolute left-3 top-1/2 z-10 -translate-y-1/2 rounded-full bg-black/50 p-2 text-white transition-all hover:bg-black/70"
           >
             <ChevronLeft className="h-5 w-5" />
           </button>
           <button
             onClick={handleNext}
             aria-label="Next media"
-            className="absolute right-2 top-1/2 z-10 -translate-y-1/2 rounded-full bg-black/50 p-2 text-white transition-all hover:bg-black/70"
+            className="absolute right-3 top-1/2 z-10 -translate-y-1/2 rounded-full bg-black/50 p-2 text-white transition-all hover:bg-black/70"
           >
             <ChevronRight className="h-5 w-5" />
           </button>
@@ -165,36 +175,24 @@ export function MediaShowcase() {
                     className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-110"
                   />
                 ) : (
-                  <>
-                    <video
-                      key={`video-${item.id}`}
-                      src={item.src}
-                      className="h-full w-full object-cover"
-                      autoPlay={playingVideoId === item.id}
-                      controls={playingVideoId === item.id}
-                      muted
-                      loop
-                      playsInline
-                    />
-                    <button
-                      onClick={() => toggleVideoPlay(item.id)}
-                      className="absolute inset-0 flex items-center justify-center bg-black/40 transition-all group-hover:bg-black/50"
-                      aria-label={playingVideoId === item.id ? 'Pause video' : 'Play video'}
-                    >
-                      {playingVideoId === item.id ? (
-                        <Pause className="h-12 w-12 text-white" />
-                      ) : (
-                        <Play className="h-12 w-12 text-white" />
-                      )}
-                    </button>
-                  </>
+                  <video
+                    src={item.src}
+                    className="h-full w-full object-cover"
+                    autoPlay
+                    muted
+                    loop
+                    controls
+                    playsInline
+                  />
                 )}
               </div>
 
               {/* Title Overlay */}
-              <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-4 pt-12">
-                <h3 className="text-sm font-semibold text-white sm:text-base">{item.title}</h3>
-              </div>
+              {item.title && (
+                <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-4 pt-12">
+                  <h3 className="text-sm font-semibold text-white sm:text-base">{item.title}</h3>
+                </div>
+              )}
             </div>
           ))}
         </div>

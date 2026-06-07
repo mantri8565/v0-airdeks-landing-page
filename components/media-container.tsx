@@ -1,8 +1,24 @@
+'use client'
+
+import { useEffect } from 'react'
+
 interface MediaContainerProps {
   src: string
   alt?: string
   aspectRatio?: "square" | "video" | "custom"
   customAspectClass?: string
+}
+
+// Utility function to preload images and videos
+const preloadMedia = (src: string) => {
+  if (typeof window === 'undefined') return
+
+  const link = document.createElement('link')
+  link.rel = 'preload'
+  const isVideo = src.endsWith('.mp4') || src.endsWith('.webm') || src.endsWith('.mov')
+  link.as = isVideo ? 'video' : 'image'
+  link.href = src
+  document.head.appendChild(link)
 }
 
 export function MediaContainer({
@@ -12,6 +28,11 @@ export function MediaContainer({
   customAspectClass = "aspect-[4/5] sm:aspect-[5/4] lg:aspect-[4/5]",
 }: MediaContainerProps) {
   const isVideo = src.endsWith(".mp4") || src.endsWith(".webm") || src.endsWith(".mov")
+
+  // Preload media on mount
+  useEffect(() => {
+    preloadMedia(src)
+  }, [src])
 
   const aspectClasses = {
     square: "aspect-square",
