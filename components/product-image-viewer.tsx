@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import Image from 'next/image'
 import { X, ChevronLeft, ChevronRight, Loader2 } from 'lucide-react'
 
@@ -10,6 +10,19 @@ interface ProductImageViewerProps {
   selectedColor?: string
   colorVariants?: Record<string, string[]>
   onColorChange?: (color: string) => void
+}
+
+// Utility function to preload images in background
+const preloadImages = (imageSources: string[]) => {
+  if (typeof window === 'undefined') return
+
+  imageSources.forEach((src) => {
+    const link = document.createElement('link')
+    link.rel = 'preload'
+    link.as = 'image'
+    link.href = src
+    document.head.appendChild(link)
+  })
 }
 
 export function ProductImageViewer({
@@ -24,6 +37,24 @@ export function ProductImageViewer({
   const [displayImage, setDisplayImage] = useState(baseImage)
   const [imageViews, setImageViews] = useState<string[]>([baseImage])
   const [loadingImageIndex, setLoadingImageIndex] = useState<number | null>(null)
+
+  // Preload all images on component mount and when color changes
+  useEffect(() => {
+    if (selectedColor && colorVariants && colorVariants[selectedColor]) {
+      const images = Array.isArray(colorVariants[selectedColor]) 
+        ? colorVariants[selectedColor] 
+        : [colorVariants[selectedColor]]
+      preloadImages(images)
+    }
+  }, [selectedColor, colorVariants])
+
+  // Preload all color variants on mount for faster color switching
+  useEffect(() => {
+    if (colorVariants) {
+      const allImages = Object.values(colorVariants).flat()
+      preloadImages(allImages)
+    }
+  }, [colorVariants])
 
   // Update image views and display image when color changes
   useEffect(() => {
