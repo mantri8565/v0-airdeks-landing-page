@@ -1,9 +1,6 @@
 "use client"
 
-import { useState } from "react"
-import { Menu, ShoppingCart, X } from "lucide-react"
-
-const navLinks = ["Home", "Airdeks", "Shop", "About Us", "Support", "Compare"]
+import { Phone } from "lucide-react"
 
 function Logo() {
   return (
@@ -16,80 +13,43 @@ function Logo() {
           <path d="M16 11v3" />
         </svg>
       </span>
-      <span className="text-lg font-semibold leading-none tracking-tight text-white">
-        Air<span className="text-emerald-400">deks</span>
-      </span>
+      <div className="flex flex-col items-start">
+        <span className="text-lg font-semibold leading-tight tracking-tight text-white">
+          Air<span className="text-emerald-400">deks</span>
+        </span>
+        <span className="text-xs font-light leading-tight tracking-wider text-slate-400 uppercase md:mt-1">
+          For Serious Builders and Creators
+        </span>
+      </div>
     </a>
   )
 }
 
 export function SiteHeader() {
-  const [open, setOpen] = useState(false)
-
   return (
     <header className="border-b border-white/10 bg-slate-950/80 backdrop-blur-md">
-      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-4 px-6 md:h-20 lg:px-8">
+      <div className="mx-auto flex h-auto max-w-7xl items-center justify-between gap-4 px-6 py-4 md:h-20 md:py-0 lg:px-8">
         <Logo />
 
-        <nav className="hidden items-center gap-8 lg:flex" aria-label="Primary">
-          {navLinks.map((link) => (
-            <a
-              key={link}
-              href="#"
-              className="text-sm font-medium text-slate-300 transition-colors hover:text-emerald-400"
-            >
-              {link}
-            </a>
-          ))}
-        </nav>
-
         <div className="flex items-center gap-4">
+          {/* Desktop: Text link */}
           <a
             href="tel:+442045773550"
-            className="hidden text-sm font-medium text-slate-300 transition-colors hover:text-white xl:block"
+            className="hidden text-sm font-medium text-slate-300 transition-colors hover:text-white md:block"
           >
             +44 (0) 20 4577 3550
           </a>
-          <button
-            type="button"
-            aria-label="Cart"
-            className="flex size-10 items-center justify-center rounded-full text-slate-200 transition-colors hover:bg-white/5 hover:text-emerald-400"
+
+          {/* Mobile/Tablet: Call icon */}
+          <a
+            href="tel:+442045773550"
+            aria-label="Call us"
+            className="flex size-10 items-center justify-center rounded-full text-slate-300 transition-colors hover:bg-white/5 hover:text-emerald-400 md:hidden"
           >
-            <ShoppingCart className="size-5" />
-          </button>
-          <button
-            type="button"
-            aria-label="Toggle menu"
-            onClick={() => setOpen((v) => !v)}
-            className="flex size-10 items-center justify-center rounded-full text-slate-200 transition-colors hover:bg-white/5 lg:hidden"
-          >
-            {open ? <X className="size-5" /> : <Menu className="size-5" />}
-          </button>
+            <Phone className="size-5" />
+          </a>
         </div>
       </div>
-
-      {open && (
-        <nav className="border-t border-white/10 bg-slate-950 px-6 py-4 lg:hidden" aria-label="Mobile">
-          <ul className="flex flex-col gap-1">
-            {navLinks.map((link) => (
-              <li key={link}>
-                <a
-                  href="#"
-                  className="block rounded-md px-3 py-2.5 text-base font-medium text-slate-300 transition-colors hover:bg-white/5 hover:text-emerald-400"
-                  onClick={() => setOpen(false)}
-                >
-                  {link}
-                </a>
-              </li>
-            ))}
-            <li className="mt-2 border-t border-white/10 pt-3">
-              <a href="tel:+442045773550" className="block px-3 py-2 text-sm font-medium text-emerald-400">
-                +44 (0) 20 4577 3550
-              </a>
-            </li>
-          </ul>
-        </nav>
-      )}
     </header>
   )
 }

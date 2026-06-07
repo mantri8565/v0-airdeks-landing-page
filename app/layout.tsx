@@ -10,7 +10,7 @@ const inter = Inter({
 })
 
 export const metadata: Metadata = {
-  title: 'Airdeks — The desk you never see',
+  title: 'Airdeks — For Serious Creators and Builders',
   description:
     'Airdeks is a premium wall-mounted folding desk that disappears in seconds. Engineered in Britain, built to last.',
   generator: 'v0.app',
@@ -39,7 +39,7 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en" className={`${inter.variable} dark`}>
+    <html lang="en" className={`${inter.variable} dark scroll-smooth`}>
       <body className="bg-slate-950 font-sans antialiased">
         {children}
         {process.env.NODE_ENV === 'production' && <Analytics />}

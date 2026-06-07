@@ -37,7 +37,7 @@ const specifications = [
   },
 ]
 
-export function Benefits() {
+export function Painpoints() {
   return (
     <section className="border-b border-white/10">
       {/* Intro: headline + subheadline */}
@@ -63,7 +63,13 @@ export function Benefits() {
           </div>
         ))}
       </div>
+    </section>
+  )
+}
 
+export function Benefits() {
+  return (
+    <section className="border-b border-white/10">
       {/* Specifications band */}
       <div className="bg-emerald-600">
         <div className="mx-auto max-w-7xl px-6 py-16 md:py-20 lg:px-8">

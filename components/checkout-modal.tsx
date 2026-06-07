@@ -1,0 +1,356 @@
+'use client'
+
+import { useState } from 'react'
+import { Loader2, X } from 'lucide-react'
+
+interface CheckoutModalProps {
+  isOpen: boolean
+  onClose: () => void
+  productName: string
+  selectedColor?: string
+  onSuccess: () => void
+}
+
+interface FormData {
+  name: string
+  email: string
+  phone: string
+  address: string
+  pincode: string
+}
+
+interface Errors {
+  [key: string]: string
+}
+
+export function CheckoutModal({ isOpen, onClose, productName, selectedColor, onSuccess }: CheckoutModalProps) {
+  const productDisplayName = selectedColor ? `${productName} - ${selectedColor}` : productName
+  const [formData, setFormData] = useState<FormData>({
+    name: '',
+    email: '',
+    phone: '',
+    address: '',
+    pincode: '',
+  })
+
+  const [errors, setErrors] = useState<Errors>({})
+  const [isLoading, setIsLoading] = useState(false)
+  const [isSubmitted, setIsSubmitted] = useState(false)
+
+  const validateForm = (): boolean => {
+    const newErrors: Errors = {}
+
+    if (!formData.name.trim()) {
+      newErrors.name = 'Name is required'
+    }
+
+    if (!formData.email.trim()) {
+      newErrors.email = 'Email is required'
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+      newErrors.email = 'Please enter a valid email'
+    }
+
+    if (!formData.phone) {
+      newErrors.phone = 'Phone number is required'
+    } else if (!/^\d{10}$/.test(formData.phone)) {
+      newErrors.phone = 'Phone must be exactly 10 digits'
+    }
+
+    if (!formData.address.trim()) {
+      newErrors.address = 'Shipping address is required'
+    }
+
+    if (!formData.pincode) {
+      newErrors.pincode = 'Pincode is required'
+    } else if (!/^\d{6}$/.test(formData.pincode)) {
+      newErrors.pincode = 'Pincode must be exactly 6 digits'
+    }
+
+    setErrors(newErrors)
+    return Object.keys(newErrors).length === 0
+  }
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target
+
+    // Special handling for phone - only allow digits
+    if (name === 'phone') {
+      const digitsOnly = value.replace(/\D/g, '').slice(0, 10)
+      setFormData((prev) => ({ ...prev, [name]: digitsOnly }))
+      if (errors.phone) {
+        setErrors((prev) => ({ ...prev, phone: '' }))
+      }
+      return
+    }
+
+    // Special handling for pincode - only allow digits
+    if (name === 'pincode') {
+      const digitsOnly = value.replace(/\D/g, '').slice(0, 6)
+      setFormData((prev) => ({ ...prev, [name]: digitsOnly }))
+      if (errors.pincode) {
+        setErrors((prev) => ({ ...prev, pincode: '' }))
+      }
+      return
+    }
+
+    setFormData((prev) => ({ ...prev, [name]: value }))
+    if (errors[name]) {
+      setErrors((prev) => ({ ...prev, [name]: '' }))
+    }
+  }
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+
+    if (!validateForm()) {
+      return
+    }
+
+    setIsLoading(true)
+
+    // Simulate API call
+    await new Promise((resolve) => setTimeout(resolve, 1500))
+
+    setIsLoading(false)
+    setIsSubmitted(true)
+    onSuccess()
+  }
+
+  if (!isOpen) return null
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
+      {!isSubmitted ? (
+        <div className="relative max-h-[90vh] w-full max-w-md overflow-y-auto rounded-2xl bg-slate-900 p-8 shadow-2xl">
+          {/* Close Button */}
+          <button
+            onClick={onClose}
+            className="absolute right-4 top-4 rounded-lg p-1 hover:bg-white/10"
+            aria-label="Close modal"
+          >
+            <X className="h-5 w-5 text-white" />
+          </button>
+
+          {/* Header */}
+          <div className="mb-8">
+            <h2 className="text-2xl font-bold text-white">Secure Your Airdeks Workspace</h2>
+            <p className="mt-2 text-sm text-slate-300">
+              Complete your shipping profile below to reserve your {productDisplayName}. No credit card or advance
+              digital payment required.
+            </p>
+          </div>
+
+          {/* Form */}
+          <form onSubmit={handleSubmit} className="space-y-5">
+            {/* Name */}
+            <div>
+              <label htmlFor="name" className="block text-sm font-medium text-white">
+                Name
+              </label>
+              <input
+                type="text"
+                id="name"
+                name="name"
+                value={formData.name}
+                onChange={handleInputChange}
+                placeholder="Your full name"
+                className="mt-2 w-full rounded-lg border border-white/15 bg-slate-800 px-4 py-2.5 text-white placeholder-slate-500 transition-colors focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
+              />
+              {errors.name && <p className="mt-1 text-xs text-red-400">{errors.name}</p>}
+            </div>
+
+            {/* Email */}
+            <div>
+              <label htmlFor="email" className="block text-sm font-medium text-white">
+                Email
+              </label>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                value={formData.email}
+                onChange={handleInputChange}
+                placeholder="your.email@example.com"
+                className="mt-2 w-full rounded-lg border border-white/15 bg-slate-800 px-4 py-2.5 text-white placeholder-slate-500 transition-colors focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
+              />
+              {errors.email && <p className="mt-1 text-xs text-red-400">{errors.email}</p>}
+            </div>
+
+            {/* Phone */}
+            <div>
+              <label htmlFor="phone" className="block text-sm font-medium text-white">
+                Phone (10 digits)
+              </label>
+              <input
+                type="tel"
+                id="phone"
+                name="phone"
+                value={formData.phone}
+                onChange={handleInputChange}
+                placeholder="9876543210"
+                maxLength={10}
+                className="mt-2 w-full rounded-lg border border-white/15 bg-slate-800 px-4 py-2.5 text-white placeholder-slate-500 transition-colors focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
+              />
+              {errors.phone && <p className="mt-1 text-xs text-red-400">{errors.phone}</p>}
+            </div>
+
+            {/* Address */}
+            <div>
+              <label htmlFor="address" className="block text-sm font-medium text-white">
+                Shipping Address
+              </label>
+              <textarea
+                id="address"
+                name="address"
+                value={formData.address}
+                onChange={handleInputChange}
+                placeholder="Your complete shipping address"
+                rows={3}
+                className="mt-2 w-full rounded-lg border border-white/15 bg-slate-800 px-4 py-2.5 text-white placeholder-slate-500 transition-colors focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
+              />
+              {errors.address && <p className="mt-1 text-xs text-red-400">{errors.address}</p>}
+            </div>
+
+            {/* Pincode */}
+            <div>
+              <label htmlFor="pincode" className="block text-sm font-medium text-white">
+                Pincode (6 digits)
+              </label>
+              <input
+                type="tel"
+                id="pincode"
+                name="pincode"
+                value={formData.pincode}
+                onChange={handleInputChange}
+                placeholder="560001"
+                maxLength={6}
+                className="mt-2 w-full rounded-lg border border-white/15 bg-slate-800 px-4 py-2.5 text-white placeholder-slate-500 transition-colors focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
+              />
+              {errors.pincode && <p className="mt-1 text-xs text-red-400">{errors.pincode}</p>}
+            </div>
+
+            {/* Submit Button */}
+            <button
+              type="submit"
+              disabled={isLoading}
+              className="mt-6 w-full rounded-lg bg-emerald-500 px-4 py-3 font-semibold text-slate-950 transition-colors hover:bg-emerald-400 disabled:opacity-50"
+            >
+              {isLoading ? (
+                <span className="flex items-center justify-center gap-2">
+                  <Loader2 className="h-4 w-4 animate-spin" />
+                  Processing...
+                </span>
+              ) : (
+                'Submit'
+              )}
+            </button>
+
+            {/* Subtext */}
+            <p className="text-center text-xs text-slate-400">
+              By clicking, you agree to pay only upon safe physical delivery.
+            </p>
+          </form>
+        </div>
+      ) : (
+        // Success Screen
+        <div className="relative max-h-[90vh] w-full max-w-2xl overflow-y-auto rounded-2xl bg-slate-900 p-8 shadow-2xl">
+          <button
+            onClick={onClose}
+            className="absolute right-4 top-4 rounded-lg p-1 hover:bg-white/10"
+            aria-label="Close modal"
+          >
+            <X className="h-5 w-5 text-white" />
+          </button>
+
+          <div className="space-y-6 text-white">
+            {/* Success Header */}
+            <div className="text-center">
+              <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-emerald-500/20">
+                <div className="h-8 w-8 rounded-full bg-emerald-500"></div>
+              </div>
+              <h2 className="text-2xl font-bold">Your {productDisplayName} Workspace is Reserved.</h2>
+            </div>
+
+            {/* Important Allocation Notice */}
+            <div className="space-y-4 rounded-lg border border-white/10 bg-slate-800/50 p-6">
+              <h3 className="font-semibold">Important Allocation Notice Regarding Your Shipment</h3>
+
+              <div className="space-y-3 text-sm text-slate-300">
+                <p>
+                  <span className="font-semibold text-white">Batch 1 Supply Update:</span> Due to
+                  unexpected bulk procurement orders from corporate teams and remote professionals
+                  across Bangalore, Hyderabad, and Delhi NCR over the last 48 hours, our initial
+                  production batch has officially 100% sold out.
+                </p>
+
+                <p>
+                  To preserve the uncompromising build quality, premium material finish, and
+                  structural calibration of our desks, we manufacture exclusively in controlled,
+                  limited runs rather than mass-producing.
+                </p>
+
+                <p>
+                  Because you completed your checkout form before the registration cutoff, your
+                  priority allocation spot has been successfully locked in for{' '}
+                  <span className="font-semibold text-emerald-400">Batch 2.</span>
+                </p>
+              </div>
+            </div>
+
+            {/* What Happens Next */}
+            <div className="space-y-4 rounded-lg border border-white/10 bg-slate-800/50 p-6">
+              <h3 className="font-semibold">What Happens Next?</h3>
+
+              <div className="space-y-3 text-sm text-slate-300">
+                <p>
+                  <span className="font-semibold text-white">Current Allocation Status:</span>{' '}
+                  Confirmed, Secured, and Priority-Queued.
+                </p>
+
+                <p>
+                  <span className="font-semibold text-white">Estimated Dispatch Timeline:</span>{' '}
+                  Shipping out from our warehouse in exactly 12 days.
+                </p>
+
+                <p>
+                  <span className="font-semibold text-white">Financial Commitment:</span> ₹0
+                  Upfront. Your price remains frozen at the launch rate. You do not pay a single
+                  rupee until our delivery agent arrives at your doorstep and hands over the
+                  package.
+                </p>
+              </div>
+            </div>
+
+            {/* GST Invoice Info */}
+            <p className="text-sm text-slate-300">
+              If you need a formal GST invoice for corporate reimbursement, or if you want to
+              request immediate priority handling for your dispatch queue, connect directly with
+              our logistics team below:
+            </p>
+
+            {/* WhatsApp CTA */}
+            <a
+              href="https://wa.me/918023456789?text=I%20would%20like%20to%20track%20my%20Airdeks%20order%20and%20request%20priority%20handling."
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex flex-col items-center justify-center gap-2 rounded-lg bg-green-600 px-6 py-4 font-semibold text-white transition-colors hover:bg-green-700"
+            >
+              <span>Move to Priority Tracking via WhatsApp</span>
+              <span className="text-xs font-normal text-green-100">
+                Connects you with our dispatch desk to expedite your batch assignment.
+              </span>
+            </a>
+
+            {/* Close Button */}
+            <button
+              onClick={onClose}
+              className="w-full rounded-lg border border-white/20 px-6 py-3 font-semibold text-white transition-colors hover:bg-white/5"
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      )}
+    </div>
+  )
+}

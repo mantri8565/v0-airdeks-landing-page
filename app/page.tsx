@@ -1,7 +1,8 @@
 import { TopBanner } from "@/components/top-banner"
 import { SiteHeader } from "@/components/site-header"
 import { Hero } from "@/components/hero"
-import { Benefits } from "@/components/benefits"
+import { Painpoints, Benefits } from "@/components/benefits"
+import { MediaShowcase } from "@/components/media-showcase"
 import { ProductShowcase } from "@/components/product-showcase"
 import { TrustBadges } from "@/components/trust-badges"
 import { SiteFooter } from "@/components/site-footer"
@@ -15,6 +16,8 @@ export default function Page() {
       </div>
       <main>
         <Hero />
+        <Painpoints />
+        <MediaShowcase />
         <Benefits />
         <ProductShowcase />
         <TrustBadges />
