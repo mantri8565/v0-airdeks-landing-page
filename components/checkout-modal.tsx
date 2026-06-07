@@ -39,6 +39,24 @@ export function CheckoutModal({ isOpen, onClose, productName, selectedColor, onS
   const [errors, setErrors] = useState<Errors>({})
   const [isLoading, setIsLoading] = useState(false)
   const [isSubmitted, setIsSubmitted] = useState(false)
+  const [orderId, setOrderId] = useState('ADO-X7R2K9')
+  const [firstName, setFirstName] = useState('Customer')
+
+  // Generate random order ID
+  const generateOrderId = (): string => {
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'
+    let randomString = ''
+    for (let i = 0; i < 6; i++) {
+      randomString += characters.charAt(Math.floor(Math.random() * characters.length))
+    }
+    return `ADO-${randomString}`
+  }
+
+  // Extract first name from full name
+  const getFirstName = (fullName: string): string => {
+    if (!fullName.trim()) return 'Customer'
+    return fullName.trim().split(/\s+/)[0]
+  }
 
   // Scroll to top when success screen is shown
   useEffect(() => {
@@ -127,6 +145,12 @@ export function CheckoutModal({ isOpen, onClose, productName, selectedColor, onS
     }
 
     setIsLoading(true)
+
+    // Generate order ID and extract first name on submit
+    const newOrderId = generateOrderId()
+    const newFirstName = getFirstName(formData.name)
+    setOrderId(newOrderId)
+    setFirstName(newFirstName)
 
     // Simulate API call
     await new Promise((resolve) => setTimeout(resolve, 2000))
@@ -303,10 +327,10 @@ export function CheckoutModal({ isOpen, onClose, productName, selectedColor, onS
               <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-emerald-500/20">
                 <div className="h-8 w-8 rounded-full bg-emerald-500"></div>
               </div>
-              <h2 className="text-2xl font-bold">Hello <span className="text-emerald-400">Customer</span>, Your <span className="text-emerald-400">{productDisplayName}</span> Workspace is Reserved.</h2>
+              <h2 className="text-2xl font-bold">Hello <span className="text-emerald-400">{firstName}</span>, Your <span className="text-emerald-400">{productDisplayName}</span> Workspace is Reserved.</h2>
             </div>
             <div className="space-y-4 rounded-lg border border-white/10 bg-slate-800/50 p-6">
-                <p><span className="font-semibold">Order Reference: </span>ADO-X7R2K9</p>
+                <p><span className="font-semibold">Order Reference: </span>{orderId}</p>
                 <p><span className="font-semibold">Allocation Status: </span>Confirmed, Secured, and Priority-Queued.
                 </p>
             </div>
@@ -348,17 +372,25 @@ export function CheckoutModal({ isOpen, onClose, productName, selectedColor, onS
 
 
             {/* WhatsApp CTA */}
-            <a
-              href="https://wa.me/918023456789?text=I%20would%20like%20to%20track%20my%20Airdeks%20order%20and%20request%20priority%20handling."
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex flex-col items-center justify-center gap-2 rounded-lg bg-green-600 px-6 py-4 font-semibold text-white transition-colors hover:bg-green-700"
-            >
-              <span>Move to Priority Tracking via WhatsApp</span>
-              <span className="text-xs font-normal text-green-100">
-                Connects you with our dispatch desk to expedite your batch assignment.
-              </span>
-            </a>
+            {(() => {
+              // Build WhatsApp message with all details
+              const whatsappMessage = `Hi! I wanted to follow up on my recent ${productDisplayName} reservation.\n\n*Order Details:*\nOrder ID: ${orderId}\nCustomer Name: ${formData.name}\nPhone: ${formData.countryCode}${formData.phone}\nShipping Address: ${formData.address}\nPincode: ${formData.pincode}\nProduct: ${productDisplayName}\n\nCould you please help me with priority handling for my dispatch queue? Thank you!`
+              const whatsappLink = `https://wa.me/919969965182?text=${encodeURIComponent(whatsappMessage)}`
+
+              return (
+                <a
+                  href={whatsappLink}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex flex-col items-center justify-center gap-2 rounded-lg bg-green-600 px-6 py-4 font-semibold text-white transition-colors hover:bg-green-700"
+                >
+                  <span>Move to Priority Tracking via WhatsApp</span>
+                  <span className="text-xs font-normal text-green-100">
+                    Connects you with our dispatch desk to expedite your batch assignment.
+                  </span>
+                </a>
+              )
+            })()}
 
             {/* Close Button */}
             <button

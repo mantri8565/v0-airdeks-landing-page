@@ -153,13 +153,24 @@ function ProductCard({ product }: { product: (typeof products)[number] }) {
         <div className="mt-8 border-t border-white/10 pt-6">
           <div className="flex flex-col gap-4 sm:flex-row">
             {/* Primary CTA - WhatsApp */}
-            <a
-              href="#"
-              className="flex flex-col items-center justify-center rounded-lg bg-emerald-500 px-6 py-4 text-center font-semibold tracking-wide text-slate-950 transition-colors hover:bg-emerald-400 sm:flex-1"
-            >
-              <span className="text-base">Order via WhatsApp</span>
-              <span className="mt-1 text-xs text-slate-900/70">For any other customizations</span>
-            </a>
+            {(() => {
+              const colorName = product.colorNames[selectedColor as keyof typeof product.colorNames] || 'Color'
+              const productInfo = selectedColor ? `${product.name} - ${colorName}` : `<${product.name}> <${colorName}>`
+              const whatsappMessage = `Hi! I'm interested in customizing my ${productInfo} order.\n\nCustomer Details:\nName: <name>\nAddress: <address>\nPincode: <pincode>\n\nProduct: ${productInfo}\n\nCould you please help me with customization options? Thank you!`
+              const whatsappLink = `https://wa.me/918023456789?text=${encodeURIComponent(whatsappMessage)}`
+
+              return (
+                <a
+                  href={whatsappLink}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex flex-col items-center justify-center rounded-lg bg-emerald-500 px-6 py-4 text-center font-semibold tracking-wide text-slate-950 transition-colors hover:bg-emerald-400 sm:flex-1"
+                >
+                  <span className="text-base">Order via WhatsApp</span>
+                  <span className="mt-1 text-xs text-slate-900/70">For any other customizations</span>
+                </a>
+              )
+            })()}
 
             {/* Secondary CTA - Buy Now */}
             <button
