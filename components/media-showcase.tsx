@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { ChevronLeft, ChevronRight } from 'lucide-react'
+import { ChevronLeft, ChevronRight, Loader2 } from 'lucide-react'
 
 const mediaItems = [
   {
@@ -9,40 +9,43 @@ const mediaItems = [
     type: 'image',
     src: '/media/img/airdeks best dual.jpg',
     alt: 'Product showcase 1',
-    title: 'Mobile Setup',
+    title: null,
   },
   {
     id: 2,
     type: 'image',
     src: '/media/img/open airdeks.jpg',
     alt: 'Product showcase 2',
-    title: 'Tablet Setup',
+    title: null,
   },
   {
     id: 3,
-    type: 'image',
-    src: '/media/img/side_view_airdeks.jpg',
+    type: 'video',
+    src: '/media/videos/shoot1.mp4',
     alt: 'Product showcase 3',
-    title: 'Desktop Setup',
+    title: null,
   },
   {
     id: 4,
     type: 'image',
     src: '/media/img/side_view_indian.jpg',
     alt: 'Product showcase 4',
-    title: 'Work Environment',
+    title: null,
   },
 ]
 
 export function MediaShowcase() {
   const [currentIndex, setCurrentIndex] = useState(0)
+  const [isLoading, setIsLoading] = useState(true)
 
   const handlePrev = () => {
     setCurrentIndex((prev) => (prev === 0 ? mediaItems.length - 1 : prev - 1))
+    setIsLoading(true)
   }
 
   const handleNext = () => {
     setCurrentIndex((prev) => (prev === mediaItems.length - 1 ? 0 : prev + 1))
+    setIsLoading(true)
   }
 
   // Keyboard navigation
@@ -70,11 +73,19 @@ export function MediaShowcase() {
         <div className="relative sm:hidden">
           <div className="overflow-hidden rounded-lg bg-slate-950">
             <div className="relative aspect-square w-full">
+              {/* Loading Spinner */}
+              {isLoading && (
+                <div className="absolute inset-0 flex items-center justify-center bg-black/30 z-20">
+                  <Loader2 className="h-8 w-8 text-white animate-spin" />
+                </div>
+              )}
+
               {mediaItems[currentIndex].type === 'image' ? (
                 <img
                   src={mediaItems[currentIndex].src}
                   alt={mediaItems[currentIndex].alt}
                   className="h-full w-full object-cover"
+                  onLoad={() => setIsLoading(false)}
                 />
               ) : (
                 <video
@@ -85,6 +96,7 @@ export function MediaShowcase() {
                   loop
                   controls
                   playsInline
+                  onLoadedMetadata={() => setIsLoading(false)}
                 />
               )}
 
