@@ -69,11 +69,21 @@ export function CheckoutModal({ isOpen, onClose, productName, selectedColor, onS
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = 'hidden'
+      
+      // Handle browser back button on mobile
+      window.history.pushState(null, '', window.location.href)
+      const handlePopState = () => {
+        onClose()
+        window.history.pushState(null, '', window.location.href)
+      }
+      window.addEventListener('popstate', handlePopState)
+      
       return () => {
+        window.removeEventListener('popstate', handlePopState)
         document.body.style.overflow = 'unset'
       }
     }
-  }, [isOpen])
+  }, [isOpen, onClose])
 
   const validateForm = (): boolean => {
     const newErrors: Errors = {}
