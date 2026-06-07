@@ -1,15 +1,28 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import Image from 'next/image'
-import { X, ChevronLeft, ChevronRight } from 'lucide-react'
+import { X, ChevronLeft, ChevronRight, Loader2 } from 'lucide-react'
 
 interface ProductImageViewerProps {
   baseImage: string
   productName: string
   selectedColor?: string
-  colorVariants?: Record<string, string>
+  colorVariants?: Record<string, string[]>
   onColorChange?: (color: string) => void
+}
+
+// Utility function to preload images in background
+const preloadImages = (imageSources: string[]) => {
+  if (typeof window === 'undefined') return
+
+  imageSources.forEach((src) => {
+    const link = document.createElement('link')
+    link.rel = 'preload'
+    link.as = 'image'
+    link.href = src
+    document.head.appendChild(link)
+  })
 }
 
 export function ProductImageViewer({
@@ -22,26 +35,61 @@ export function ProductImageViewer({
   const [isZoomed, setIsZoomed] = useState(false)
   const [currentImageIndex, setCurrentImageIndex] = useState(0)
   const [displayImage, setDisplayImage] = useState(baseImage)
+  const [imageViews, setImageViews] = useState<string[]>([baseImage])
+  const [loadingImageIndex, setLoadingImageIndex] = useState<number | null>(null)
 
-  // Generate multiple image views based on the base image
-  // For now, we'll use the same image, but in practice these could be different angles
-  const imageViews = [baseImage, baseImage, baseImage]
-
-  // Update display image when color changes
+  // Preload all images on component mount and when color changes
   useEffect(() => {
-    if (selectedColor && colorVariants[selectedColor]) {
-      setDisplayImage(colorVariants[selectedColor])
+    if (selectedColor && colorVariants && colorVariants[selectedColor]) {
+      const images = Array.isArray(colorVariants[selectedColor]) 
+        ? colorVariants[selectedColor] 
+        : [colorVariants[selectedColor]]
+      preloadImages(images)
+    }
+  }, [selectedColor, colorVariants])
+
+  // Preload all color variants on mount for faster color switching
+  useEffect(() => {
+    if (colorVariants) {
+      const allImages = Object.values(colorVariants).flat()
+      preloadImages(allImages)
+    }
+  }, [colorVariants])
+
+  // Update image views and display image when color changes
+  useEffect(() => {
+    if (selectedColor && colorVariants && colorVariants[selectedColor]) {
+      // If colorVariants[selectedColor] is an array, use it directly
+      const images = Array.isArray(colorVariants[selectedColor]) 
+        ? colorVariants[selectedColor] 
+        : [colorVariants[selectedColor]]
+      setImageViews(images)
+      setDisplayImage(images[0])
+      setCurrentImageIndex(0)
     } else {
+      // Fallback to baseImage wrapped in array
+      setImageViews([baseImage])
       setDisplayImage(baseImage)
+      setCurrentImageIndex(0)
     }
   }, [selectedColor, baseImage, colorVariants])
 
   const handlePrevImage = () => {
-    setCurrentImageIndex((prev) => (prev === 0 ? imageViews.length - 1 : prev - 1))
+    setCurrentImageIndex((prev) => {
+      const newIndex = prev === 0 ? imageViews.length - 1 : prev - 1
+      setLoadingImageIndex(newIndex)
+      setDisplayImage(imageViews[newIndex])
+      return newIndex
+    })
   }
 
   const handleNextImage = () => {
-    setCurrentImageIndex((prev) => (prev === imageViews.length - 1 ? 0 : prev + 1))
+    setCurrentImageIndex((prev) => {
+      const newIndex = prev === imageViews.length - 1 ? 0 : prev + 1
+      setLoadingImageIndex(newIndex)
+      setDisplayImage(imageViews[newIndex])
+      return newIndex
+    })
   }
 
   const handleKeyDown = (e: KeyboardEvent) => {
@@ -52,16 +100,28 @@ export function ProductImageViewer({
     } else if (e.key === 'ArrowRight') {
       handleNextImage()
     } else if (e.key === 'Escape') {
-      setIsZoomed(false)
+      handleCloseZoom()
     }
   }
 
   useEffect(() => {
     if (isZoomed) {
       window.addEventListener('keydown', handleKeyDown)
-      return () => window.removeEventListener('keydown', handleKeyDown)
+      document.body.style.overflow = 'hidden'
+      return () => {
+        window.removeEventListener('keydown', handleKeyDown)
+        document.body.style.overflow = 'unset'
+      }
     }
   }, [isZoomed])
+
+  // Reset to default image when zoom is closed
+  const handleCloseZoom = () => {
+    setIsZoomed(false)
+    setCurrentImageIndex(0)
+    setDisplayImage(imageViews[0] || baseImage)
+    setLoadingImageIndex(null)
+  }
 
   return (
     <>
@@ -98,7 +158,7 @@ export function ProductImageViewer({
           <div className="relative max-h-screen max-w-4xl w-full flex flex-col items-center justify-center">
             {/* Close Button */}
             <button
-              onClick={() => setIsZoomed(false)}
+              onClick={handleCloseZoom}
               className="absolute top-4 right-4 z-10 rounded-full bg-white/10 p-2 hover:bg-white/20 transition-colors"
               aria-label="Close zoom view"
             >
@@ -107,10 +167,16 @@ export function ProductImageViewer({
 
             {/* Image Container */}
             <div className="relative w-full flex items-center justify-center">
+              {loadingImageIndex === currentImageIndex && (
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <Loader2 className="size-8 text-white animate-spin" />
+                </div>
+              )}
               <img
                 src={displayImage || '/placeholder.svg'}
                 alt={`${productName} - zoomed view ${currentImageIndex + 1}`}
                 className="max-h-[80vh] w-auto object-contain"
+                onLoad={() => setLoadingImageIndex(null)}
               />
 
               {/* Navigation Arrows */}
