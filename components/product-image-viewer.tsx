@@ -37,6 +37,8 @@ export function ProductImageViewer({
   const [displayImage, setDisplayImage] = useState(baseImage)
   const [imageViews, setImageViews] = useState<string[]>([baseImage])
   const [loadingImageIndex, setLoadingImageIndex] = useState<number | null>(null)
+  const [touchStart, setTouchStart] = useState<number | null>(null)
+  const [touchEnd, setTouchEnd] = useState<number | null>(null)
 
   // Preload all images on component mount and when color changes
   useEffect(() => {
@@ -104,6 +106,32 @@ export function ProductImageViewer({
     }
   }
 
+  const handleTouchStart = (e: React.TouchEvent) => {
+    setTouchStart(e.targetTouches[0].clientX)
+    setTouchEnd(null)
+  }
+
+  const handleTouchEnd = (e: React.TouchEvent) => {
+    if (!touchStart) return
+    const touchEndPos = e.changedTouches[0].clientX
+    setTouchEnd(touchEndPos)
+    handleSwipe(touchStart, touchEndPos)
+  }
+
+  const handleSwipe = (start: number, end: number) => {
+    const distance = start - end
+    const isLeftSwipe = distance > 50
+    const isRightSwipe = distance < -50
+
+    if (isLeftSwipe) {
+      // Left swipe = next image
+      handleNextImage()
+    } else if (isRightSwipe) {
+      // Right swipe = previous image
+      handlePrevImage()
+    }
+  }
+
   useEffect(() => {
     if (isZoomed) {
       window.addEventListener('keydown', handleKeyDown)
@@ -154,19 +182,23 @@ export function ProductImageViewer({
 
       {/* Zoomed Modal */}
       {isZoomed && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/95 p-4">
+        <div 
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/95 p-4"
+          onTouchStart={handleTouchStart}
+          onTouchEnd={handleTouchEnd}
+        >
           <div className="relative max-h-screen max-w-4xl w-full flex flex-col items-center justify-center">
-            {/* Close Button */}
+            {/* Close Button - Mobile: dark background for visibility, Desktop: subtle */}
             <button
               onClick={handleCloseZoom}
-              className="absolute top-4 right-4 z-10 rounded-full bg-white/10 p-2 hover:bg-white/20 transition-colors"
+              className="absolute top-4 left-4 z-10 rounded-full p-2 transition-colors bg-black/70 hover:bg-black/80 sm:bg-white/10 sm:hover:bg-white/20 sm:left-auto sm:right-4"
               aria-label="Close zoom view"
             >
               <X className="size-6 text-white" />
             </button>
 
             {/* Image Container */}
-            <div className="relative w-full flex items-center justify-center">
+            <div className="relative w-full flex items-center justify-center select-none">
               {loadingImageIndex === currentImageIndex && (
                 <div className="absolute inset-0 flex items-center justify-center">
                   <Loader2 className="size-8 text-white animate-spin" />
@@ -179,19 +211,19 @@ export function ProductImageViewer({
                 onLoad={() => setLoadingImageIndex(null)}
               />
 
-              {/* Navigation Arrows */}
+              {/* Navigation Arrows - Hidden on mobile, visible on desktop */}
               {imageViews.length > 1 && (
                 <>
                   <button
                     onClick={handlePrevImage}
-                    className="absolute left-4 top-1/2 -translate-y-1/2 rounded-full bg-white/10 p-3 hover:bg-white/20 transition-colors"
+                    className="absolute left-4 top-1/2 -translate-y-1/2 rounded-full bg-white/10 p-3 hover:bg-white/20 transition-colors hidden sm:flex"
                     aria-label="Previous image"
                   >
                     <ChevronLeft className="size-6 text-white" />
                   </button>
                   <button
                     onClick={handleNextImage}
-                    className="absolute right-4 top-1/2 -translate-y-1/2 rounded-full bg-white/10 p-3 hover:bg-white/20 transition-colors"
+                    className="absolute right-4 top-1/2 -translate-y-1/2 rounded-full bg-white/10 p-3 hover:bg-white/20 transition-colors hidden sm:flex"
                     aria-label="Next image"
                   >
                     <ChevronRight className="size-6 text-white" />

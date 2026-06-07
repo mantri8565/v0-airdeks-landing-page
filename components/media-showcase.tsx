@@ -49,7 +49,7 @@ const mediaItems = [
 
 export function MediaShowcase() {
   const [currentIndex, setCurrentIndex] = useState(0)
-  const [isLoading, setIsLoading] = useState(true)
+  const [isLoading, setIsLoading] = useState(false)
 
   const handlePrev = () => {
     setCurrentIndex((prev) => (prev === 0 ? mediaItems.length - 1 : prev - 1))
@@ -61,6 +61,20 @@ export function MediaShowcase() {
     setIsLoading(true)
   }
 
+  // Reset loading state when currentIndex changes
+  useEffect(() => {
+    setIsLoading(true)
+    const currentMedia = mediaItems[currentIndex]
+    
+    // For images that are cached, add a small timeout to ensure smooth loading state
+    if (currentMedia.type === 'image') {
+      const timer = setTimeout(() => {
+        setIsLoading(false)
+      }, 300)
+      return () => clearTimeout(timer)
+    }
+  }, [currentIndex])
+
   // Keyboard navigation
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -69,7 +83,7 @@ export function MediaShowcase() {
     }
     window.addEventListener('keydown', handleKeyDown)
     return () => window.removeEventListener('keydown', handleKeyDown)
-  }, [])
+  }, [handlePrev, handleNext])
 
   // Preload all media on mount
   useEffect(() => {
@@ -101,13 +115,16 @@ export function MediaShowcase() {
 
               {mediaItems[currentIndex].type === 'image' ? (
                 <img
+                  key={`image-${currentIndex}`}
                   src={mediaItems[currentIndex].src}
                   alt={mediaItems[currentIndex].alt}
                   className="h-full w-full object-cover"
                   onLoad={() => setIsLoading(false)}
+                  onError={() => setIsLoading(false)}
                 />
               ) : (
                 <video
+                  key={`video-${currentIndex}`}
                   src={mediaItems[currentIndex].src}
                   className="h-full w-full object-cover"
                   autoPlay
@@ -116,6 +133,7 @@ export function MediaShowcase() {
                   controls
                   playsInline
                   onLoadedMetadata={() => setIsLoading(false)}
+                  onCanPlay={() => setIsLoading(false)}
                 />
               )}
 
