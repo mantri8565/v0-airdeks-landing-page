@@ -3,6 +3,19 @@
 import { useState, useEffect } from 'react'
 import { ChevronLeft, ChevronRight, Loader2 } from 'lucide-react'
 
+// Utility function to preload images and videos in background
+const preloadMedia = (mediaSources: string[]) => {
+  if (typeof window === 'undefined') return
+
+  mediaSources.forEach((src) => {
+    const link = document.createElement('link')
+    link.rel = 'preload'
+    link.as = src.endsWith('.mp4') || src.endsWith('.webm') || src.endsWith('.mov') ? 'video' : 'image'
+    link.href = src
+    document.head.appendChild(link)
+  })
+}
+
 const mediaItems = [
   {
     id: 1,
@@ -56,6 +69,12 @@ export function MediaShowcase() {
     }
     window.addEventListener('keydown', handleKeyDown)
     return () => window.removeEventListener('keydown', handleKeyDown)
+  }, [])
+
+  // Preload all media on mount
+  useEffect(() => {
+    const mediaSources = mediaItems.map((item) => item.src)
+    preloadMedia(mediaSources)
   }, [])
   return (
     <section className="border-b border-white/10">
