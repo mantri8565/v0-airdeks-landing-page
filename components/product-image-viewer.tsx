@@ -37,8 +37,6 @@ export function ProductImageViewer({
   const [displayImage, setDisplayImage] = useState(baseImage)
   const [imageViews, setImageViews] = useState<string[]>([baseImage])
   const [loadingImageIndex, setLoadingImageIndex] = useState<number | null>(null)
-  const [touchStart, setTouchStart] = useState<number | null>(null)
-  const [touchEnd, setTouchEnd] = useState<number | null>(null)
 
   // Preload all images on component mount and when color changes
   useEffect(() => {
@@ -106,29 +104,6 @@ export function ProductImageViewer({
     }
   }
 
-  const handleTouchStart = (e: React.TouchEvent) => {
-    setTouchStart(e.targetTouches[0].clientX)
-  }
-
-  const handleTouchEnd = (e: React.TouchEvent) => {
-    setTouchEnd(e.changedTouches[0].clientX)
-    handleSwipe(touchStart, e.changedTouches[0].clientX)
-  }
-
-  const handleSwipe = useCallback((start: number | null, end: number | null) => {
-    if (!start || !end) return
-
-    const distance = start - end
-    const isLeftSwipe = distance > 50
-    const isRightSwipe = distance < -50
-
-    if (isLeftSwipe) {
-      handleNextImage()
-    } else if (isRightSwipe) {
-      handlePrevImage()
-    }
-  }, [])
-
   useEffect(() => {
     if (isZoomed) {
       window.addEventListener('keydown', handleKeyDown)
@@ -179,23 +154,19 @@ export function ProductImageViewer({
 
       {/* Zoomed Modal */}
       {isZoomed && (
-        <div 
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/95 p-4"
-          onTouchStart={handleTouchStart}
-          onTouchEnd={handleTouchEnd}
-        >
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/95 p-4">
           <div className="relative max-h-screen max-w-4xl w-full flex flex-col items-center justify-center">
-            {/* Close Button - Mobile Back Button */}
+            {/* Close Button */}
             <button
               onClick={handleCloseZoom}
-              className="absolute top-4 left-4 sm:right-4 sm:left-auto z-10 rounded-full bg-white/10 p-2 hover:bg-white/20 transition-colors sm:bg-white/10"
+              className="absolute top-4 right-4 z-10 rounded-full bg-white/10 p-2 hover:bg-white/20 transition-colors"
               aria-label="Close zoom view"
             >
               <X className="size-6 text-white" />
             </button>
 
             {/* Image Container */}
-            <div className="relative w-full flex items-center justify-center select-none touch-none">
+            <div className="relative w-full flex items-center justify-center">
               {loadingImageIndex === currentImageIndex && (
                 <div className="absolute inset-0 flex items-center justify-center">
                   <Loader2 className="size-8 text-white animate-spin" />
@@ -208,19 +179,19 @@ export function ProductImageViewer({
                 onLoad={() => setLoadingImageIndex(null)}
               />
 
-              {/* Navigation Arrows - Desktop Only */}
+              {/* Navigation Arrows */}
               {imageViews.length > 1 && (
                 <>
                   <button
                     onClick={handlePrevImage}
-                    className="absolute left-4 top-1/2 -translate-y-1/2 rounded-full bg-white/10 p-3 hover:bg-white/20 transition-colors hidden sm:flex"
+                    className="absolute left-4 top-1/2 -translate-y-1/2 rounded-full bg-white/10 p-3 hover:bg-white/20 transition-colors"
                     aria-label="Previous image"
                   >
                     <ChevronLeft className="size-6 text-white" />
                   </button>
                   <button
                     onClick={handleNextImage}
-                    className="absolute right-4 top-1/2 -translate-y-1/2 rounded-full bg-white/10 p-3 hover:bg-white/20 transition-colors hidden sm:flex"
+                    className="absolute right-4 top-1/2 -translate-y-1/2 rounded-full bg-white/10 p-3 hover:bg-white/20 transition-colors"
                     aria-label="Next image"
                   >
                     <ChevronRight className="size-6 text-white" />
