@@ -14,6 +14,7 @@ interface CheckoutModalProps {
 interface FormData {
   name: string
   email: string
+  countryCode: string
   phone: string
   address: string
   pincode: string
@@ -28,6 +29,7 @@ export function CheckoutModal({ isOpen, onClose, productName, selectedColor, onS
   const [formData, setFormData] = useState<FormData>({
     name: '',
     email: '',
+    countryCode: '+91',
     phone: '',
     address: '',
     pincode: '',
@@ -109,7 +111,7 @@ export function CheckoutModal({ isOpen, onClose, productName, selectedColor, onS
     setIsLoading(true)
 
     // Simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 1500))
+    await new Promise((resolve) => setTimeout(resolve, 2000))
 
     setIsLoading(false)
     setIsSubmitted(true)
@@ -135,7 +137,8 @@ export function CheckoutModal({ isOpen, onClose, productName, selectedColor, onS
           <div className="mb-8">
             <h2 className="text-2xl font-bold text-white">Secure Your Airdeks Workspace</h2>
             <p className="mt-2 text-sm text-slate-300">
-              Complete your shipping profile below to reserve your {productDisplayName}. No credit card or advance
+              Complete your shipping profile below to reserve your{' '}
+              <span className="font-semibold text-emerald-400">{productDisplayName}</span>. No credit card or advance
               digital payment required.
             </p>
           </div>
@@ -176,21 +179,35 @@ export function CheckoutModal({ isOpen, onClose, productName, selectedColor, onS
               {errors.email && <p className="mt-1 text-xs text-red-400">{errors.email}</p>}
             </div>
 
-            {/* Phone */}
+            {/* Phone with Country Code */}
             <div>
-              <label htmlFor="phone" className="block text-sm font-medium text-white">
-                Phone (10 digits)
-              </label>
-              <input
-                type="tel"
-                id="phone"
-                name="phone"
-                value={formData.phone}
-                onChange={handleInputChange}
-                placeholder="9876543210"
-                maxLength={10}
-                className="mt-2 w-full rounded-lg border border-white/15 bg-slate-800 px-4 py-2.5 text-white placeholder-slate-500 transition-colors focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
-              />
+              <label className="block text-sm font-medium text-white">Phone</label>
+              <div className="mt-2 flex gap-2">
+                <select
+                  value={formData.countryCode}
+                  onChange={(e) => setFormData((prev) => ({ ...prev, countryCode: e.target.value }))}
+                  className="w-24 rounded-lg border border-white/15 bg-slate-800 px-3 py-2.5 text-white transition-colors focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
+                >
+                  <option value="+91">🇮🇳 +91</option>
+                  <option value="+1">🇺🇸 +1</option>
+                  <option value="+44">🇬🇧 +44</option>
+                  <option value="+61">🇦🇺 +61</option>
+                  <option value="+81">🇯🇵 +81</option>
+                  <option value="+86">🇨🇳 +86</option>
+                  <option value="+33">🇫🇷 +33</option>
+                  <option value="+49">🇩🇪 +49</option>
+                </select>
+                <input
+                  type="tel"
+                  id="phone"
+                  name="phone"
+                  value={formData.phone}
+                  onChange={handleInputChange}
+                  placeholder="9876543210"
+                  maxLength={10}
+                  className="flex-1 rounded-lg border border-white/15 bg-slate-800 px-4 py-2.5 text-white placeholder-slate-500 transition-colors focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
+                />
+              </div>
               {errors.phone && <p className="mt-1 text-xs text-red-400">{errors.phone}</p>}
             </div>
 
