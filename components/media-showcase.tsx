@@ -1,6 +1,7 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import { ChevronLeft, ChevronRight } from 'lucide-react'
 
 const mediaItems = [
   {
@@ -34,6 +35,25 @@ const mediaItems = [
 ]
 
 export function MediaShowcase() {
+  const [currentIndex, setCurrentIndex] = useState(0)
+
+  const handlePrev = () => {
+    setCurrentIndex((prev) => (prev === 0 ? mediaItems.length - 1 : prev - 1))
+  }
+
+  const handleNext = () => {
+    setCurrentIndex((prev) => (prev === mediaItems.length - 1 ? 0 : prev + 1))
+  }
+
+  // Keyboard navigation
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'ArrowLeft') handlePrev()
+      if (e.key === 'ArrowRight') handleNext()
+    }
+    window.addEventListener('keydown', handleKeyDown)
+    return () => window.removeEventListener('keydown', handleKeyDown)
+  }, [])
   return (
     <section className="border-b border-white/10">
       <div className="mx-auto max-w-7xl px-6 py-16 md:py-24 lg:px-8">
@@ -46,28 +66,66 @@ export function MediaShowcase() {
           </p>
         </div>
 
-        {/* Mobile Grid - Simple Vertical Stack */}
-        <div className="grid gap-6 sm:hidden">
-          {mediaItems.map((item) => (
-            <div
-              key={item.id}
-              className="group relative overflow-hidden rounded-lg bg-slate-900/50 ring-1 ring-white/10"
-            >
-              {/* Media Container */}
-              <div className="aspect-square w-full overflow-hidden bg-slate-950">
+        {/* Mobile Carousel */}
+        <div className="relative sm:hidden">
+          <div className="overflow-hidden rounded-lg bg-slate-950">
+            <div className="relative aspect-square w-full">
+              {mediaItems[currentIndex].type === 'image' ? (
                 <img
-                  src={item.src}
-                  alt={item.alt}
-                  className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-110"
+                  src={mediaItems[currentIndex].src}
+                  alt={mediaItems[currentIndex].alt}
+                  className="h-full w-full object-cover"
                 />
-              </div>
+              ) : (
+                <video
+                  src={mediaItems[currentIndex].src}
+                  className="h-full w-full object-cover"
+                  autoPlay
+                  muted
+                  loop
+                  controls
+                  playsInline
+                />
+              )}
 
               {/* Title Overlay */}
-              <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-4 pt-12">
-                <h3 className="text-sm font-semibold text-white">{item.title}</h3>
-              </div>
+              {mediaItems[currentIndex].title && (
+                <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-4 pt-12">
+                  <h3 className="text-sm font-semibold text-white">{mediaItems[currentIndex].title}</h3>
+                </div>
+              )}
             </div>
-          ))}
+          </div>
+
+          {/* Navigation Buttons */}
+          <button
+            onClick={handlePrev}
+            aria-label="Previous media"
+            className="absolute left-3 top-1/2 z-10 -translate-y-1/2 rounded-full bg-black/50 p-2 text-white transition-all hover:bg-black/70"
+          >
+            <ChevronLeft className="h-5 w-5" />
+          </button>
+          <button
+            onClick={handleNext}
+            aria-label="Next media"
+            className="absolute right-3 top-1/2 z-10 -translate-y-1/2 rounded-full bg-black/50 p-2 text-white transition-all hover:bg-black/70"
+          >
+            <ChevronRight className="h-5 w-5" />
+          </button>
+
+          {/* Dots Indicator */}
+          <div className="mt-4 flex justify-center gap-2">
+            {mediaItems.map((_, index) => (
+              <button
+                key={index}
+                onClick={() => setCurrentIndex(index)}
+                className={`h-2 rounded-full transition-all ${
+                  index === currentIndex ? 'w-6 bg-emerald-400' : 'w-2 bg-white/30 hover:bg-white/50'
+                }`}
+                aria-label={`Go to slide ${index + 1}`}
+              />
+            ))}
+          </div>
         </div>
 
         {/* Desktop Grid */}
@@ -87,25 +145,28 @@ export function MediaShowcase() {
                   />
                 ) : (
                   <video
-                    key={`video-${item.id}`}
                     src={item.src}
                     className="h-full w-full object-cover"
                     autoPlay
                     muted
                     loop
+                    controls
                     playsInline
                   />
                 )}
               </div>
 
               {/* Title Overlay */}
-              <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-4 pt-12">
-                <h3 className="text-sm font-semibold text-white sm:text-base">{item.title}</h3>
-              </div>
+              {item.title && (
+                <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-4 pt-12">
+                  <h3 className="text-sm font-semibold text-white sm:text-base">{item.title}</h3>
+                </div>
+              )}
             </div>
           ))}
         </div>
       </div>
     </section>
+  )
   )
 }
