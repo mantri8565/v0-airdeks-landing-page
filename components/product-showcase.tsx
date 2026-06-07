@@ -13,11 +13,15 @@ const products = [
     colorVariants: {
       "#eaeaea": [
         "/images/Dual/White/DropTopWhite.png",
-        // Add more angle/view images here: "/images/Dual/White/SideViewWhite.png", "/images/Dual/White/TopViewWhite.png", etc.
+        "/images/Dual/DimensionsDual27.png",
+        "/images/Dual/White/DualOpenWhite.png",
+        "/images/Dual/White/DualClosedWhite.png",
       ],
       "#ba9a6e": [
         "/images/Dual/Brown/DropTopBrown.png",
-        // Add more angle/view images here: "/images/Dual/Brown/SideViewBrown.png", "/images/Dual/Brown/TopViewBrown.png", etc.
+        "/images/Dual/DimensionsDual27.png",
+        "/images/Dual/Brown/DualBrownOpen.png",
+        "/images/Dual/Brown/DualBrownClosed.png",
       ],
     },
     colorNames: {
@@ -45,11 +49,17 @@ const products = [
     colorVariants: {
       "#eaeaea": [
         "/images/Single/White/Single34WhiteOpen.png",
-        // Add more angle/view images here: "/images/Single/White/SideViewWhite.png", "/images/Single/White/TopViewWhite.png", etc.
+        "/images/Single/Single34Dim.png",
+        "/images/Single/White/SingleOpenWhiteinternal.png",
+        "/images/Single/White/WhiteClosedSingle.png",
+        
       ],
       "#ba9a6e": [
         "/images/Single/Brown/Single34Open.png",
-        // Add more angle/view images here: "/images/Single/Brown/SideViewBrown.png", "/images/Single/Brown/TopViewBrown.png", etc.
+        "/images/Single/Single34Dim.png",
+        "/images/Single/Brown/BrownOpenInternal.png",
+        "/images/Single/Brown/BrownSingleclosed.png",
+        
       ],
     },
     colorNames: {
