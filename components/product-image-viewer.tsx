@@ -76,7 +76,11 @@ export function ProductImageViewer({
   useEffect(() => {
     if (isZoomed) {
       window.addEventListener('keydown', handleKeyDown)
-      return () => window.removeEventListener('keydown', handleKeyDown)
+      document.body.style.overflow = 'hidden'
+      return () => {
+        window.removeEventListener('keydown', handleKeyDown)
+        document.body.style.overflow = 'unset'
+      }
     }
   }, [isZoomed])
 
