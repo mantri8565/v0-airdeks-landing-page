@@ -168,5 +168,4 @@ export function MediaShowcase() {
       </div>
     </section>
   )
-  )
 }
