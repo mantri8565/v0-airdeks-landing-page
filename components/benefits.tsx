@@ -6,8 +6,8 @@ const painPoints = [
     description: "Massive wooden tables permanently block space, even when done for the day.",
   },
   {
-    title: "The daily setup headache",
-    description: "Wasting 15 minutes assembling laptop, monitors, and chargers on the dining table.",
+    title: "Screen safety & dust damage",
+    description: "Constant anxiety about expensive monitors getting broken by playing kids or pets, and open screens catching dust when left exposed.",
   },
   {
     title: "Shaky folding tables",
@@ -21,19 +21,19 @@ const painPoints = [
 
 const specifications = [
   {
-    title: "Space-Saving Architecture",
-    detail: "5-inch folded profile, pneumatic dampening struts",
-    benefit: "Reclaim room space",
+    title: "Aesthetic Design",
+    detail: "Minimalist 5-inch sleek, premium finish",
+    benefit: "Complements your home interior perfectly",
   },
   {
     title: "Fully Articulate Mount Stand",
     detail: "Included 360° rotation, tilt, extension",
-    benefit: "Work at max efficiency",
+    benefit: "Designed to keep you in the \"flow state\" longer",
   },
   {
-    title: "Heavy-Duty Durability",
-    detail: "Supports weight up to 75 kg, laser-cut steel",
-    benefit: "Rock-solid stability",
+    title: "Frictionless Setup",
+    detail: "DIY 15-min installation, precision-fit hardware",
+    benefit: "Up and running without a carpenter",
   },
 ]
 
@@ -41,13 +41,13 @@ export function Painpoints() {
   return (
     <section className="border-b border-white/10">
       {/* Intro: headline + subheadline */}
-      <div className="mx-auto max-w-7xl px-6 py-16 md:py-24 lg:px-8">
+      <div className="mx-auto max-w-7xl px-6 py-16 md:py-16 lg:px-8">
         <h2 className="text-balance text-3xl font-semibold leading-tight tracking-tight text-white sm:text-4xl lg:text-5xl">
           Your home is for living. Your desk is for building. Don&apos;t let them fight for space.
         </h2>
 
         <p className="mt-6 max-w-3xl text-lg leading-relaxed text-slate-300">
-          Living in an apartment in cities like Bangalore, Mumbai, or Gurgaon shouldn&apos;t mean fighting your furniture for space.
+          Building a high-impact career requires a world-class setup, but it shouldn’t force you into a daily compromise where wires and heavy gear take over your personal comfort.
         </p>
       </div>
 

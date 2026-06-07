@@ -303,31 +303,28 @@ export function CheckoutModal({ isOpen, onClose, productName, selectedColor, onS
               <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-emerald-500/20">
                 <div className="h-8 w-8 rounded-full bg-emerald-500"></div>
               </div>
-              <h2 className="text-2xl font-bold">Your {productDisplayName} Workspace is Reserved.</h2>
+              <h2 className="text-2xl font-bold">Hello <span className="text-emerald-400">Customer</span>, Your <span className="text-emerald-400">{productDisplayName}</span> Workspace is Reserved.</h2>
             </div>
-
+            <div className="space-y-4 rounded-lg border border-white/10 bg-slate-800/50 p-6">
+                <p><span className="font-semibold">Order Reference: </span>ADO-X7R2K9</p>
+                <p><span className="font-semibold">Allocation Status: </span>Confirmed, Secured, and Priority-Queued.
+                </p>
+            </div>
             {/* Important Allocation Notice */}
             <div className="space-y-4 rounded-lg border border-white/10 bg-slate-800/50 p-6">
-              <h3 className="font-semibold">Important Allocation Notice Regarding Your Shipment</h3>
+              <h3 className="font-semibold">An Important Update Regarding Your Shipment Timeline</h3>
 
               <div className="space-y-3 text-sm text-slate-300">
                 <p>
-                  <span className="font-semibold text-white">Batch 1 Supply Update:</span> Due to
-                  unexpected bulk procurement orders from corporate teams and remote professionals
-                  across Bangalore, Hyderabad, and Delhi NCR over the last 48 hours, our initial
-                  production batch has officially 100% sold out.
+                  We want to be completely transparent about your delivery window. Our latest production run has just reached 100% capacity and sold out due to ongoing demand from our corporate partners and remote professionals.
                 </p>
 
                 <p>
-                  To preserve the uncompromising build quality, premium material finish, and
-                  structural calibration of our desks, we manufacture exclusively in controlled,
-                  limited runs rather than mass-producing.
+                  As a brand, we have always refused to compromise on the structural safety, material quality, and manual calibration of our desks. Because of this commitment, we craft our workstations in controlled, limited runs rather than rushing through mass production.
                 </p>
 
                 <p>
-                  Because you completed your checkout form before the registration cutoff, your
-                  priority allocation spot has been successfully locked in for{' '}
-                  <span className="font-semibold text-emerald-400">Batch 2.</span>
+                  <span className="font-semibold text-white">The good news:</span> Your checkout was completed just before the system cutoff. Your priority allocation spot has been successfully locked into our next production run.
                 </p>
               </div>
             </div>
@@ -337,31 +334,18 @@ export function CheckoutModal({ isOpen, onClose, productName, selectedColor, onS
               <h3 className="font-semibold">What Happens Next?</h3>
 
               <div className="space-y-3 text-sm text-slate-300">
-                <p>
-                  <span className="font-semibold text-white">Current Allocation Status:</span>{' '}
-                  Confirmed, Secured, and Priority-Queued.
-                </p>
 
                 <p>
                   <span className="font-semibold text-white">Estimated Dispatch Timeline:</span>{' '}
-                  Shipping out from our warehouse in exactly 12 days.
+                  Your unit will be carefully assembled, tested for weight balance, and shipped out from our warehouse in exactly 12 days.
                 </p>
 
                 <p>
-                  <span className="font-semibold text-white">Financial Commitment:</span> ₹0
-                  Upfront. Your price remains frozen at the launch rate. You do not pay a single
-                  rupee until our delivery agent arrives at your doorstep and hands over the
-                  package.
+                  <span className="font-semibold text-white">Our Trust Promise:</span> Our team takes genuine pride in every single workstation that leaves our facility, which is why we require ₹0 upfront.
                 </p>
               </div>
             </div>
 
-            {/* GST Invoice Info */}
-            <p className="text-sm text-slate-300">
-              If you need a formal GST invoice for corporate reimbursement, or if you want to
-              request immediate priority handling for your dispatch queue, connect directly with
-              our logistics team below:
-            </p>
 
             {/* WhatsApp CTA */}
             <a

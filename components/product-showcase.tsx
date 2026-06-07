@@ -13,13 +13,13 @@ const products = [
     colorVariants: {
       "#eaeaea": [
         "/images/Dual/White/DropTopWhite.png",
-        "/images/Dual/DimensionsDual27.png",
+        "/images/Dual/DimensionsDual27BG.png",
         "/images/Dual/White/DualOpenWhite.png",
         "/images/Dual/White/DualClosedWhite.png",
       ],
       "#ba9a6e": [
         "/images/Dual/Brown/DropTopBrown.png",
-        "/images/Dual/DimensionsDual27.png",
+        "/images/Dual/DimensionsDual27BG.png",
         "/images/Dual/Brown/DualBrownOpen.png",
         "/images/Dual/Brown/DualBrownClosed.png",
       ],
@@ -49,14 +49,14 @@ const products = [
     colorVariants: {
       "#eaeaea": [
         "/images/Single/White/Single34WhiteOpen.png",
-        "/images/Single/Single34Dim.png",
+        "/images/Single/Single34DimBG.png",
         "/images/Single/White/SingleOpenWhiteinternal.png",
         "/images/Single/White/WhiteClosedSingle.png",
         
       ],
       "#ba9a6e": [
         "/images/Single/Brown/Single34Open.png",
-        "/images/Single/Single34Dim.png",
+        "/images/Single/Single34DimBG.png",
         "/images/Single/Brown/BrownOpenInternal.png",
         "/images/Single/Brown/BrownSingleclosed.png",
         
