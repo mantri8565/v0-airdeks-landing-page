@@ -9,9 +9,16 @@ const products = [
     label: "Airdeks Pro",
     name: "Airdeks Pro",
     image: "/images/Dual/White/DropTopWhite.png",
+    // colorVariants now maps to arrays of image paths for each color
     colorVariants: {
-      "#eaeaea": "/images/Dual/White/DropTopWhite.png",
-      "#ba9a6e": "/images/Dual/Brown/DropTopBrown.png",
+      "#eaeaea": [
+        "/images/Dual/White/DropTopWhite.png",
+        // Add more angle/view images here: "/images/Dual/White/SideViewWhite.png", "/images/Dual/White/TopViewWhite.png", etc.
+      ],
+      "#ba9a6e": [
+        "/images/Dual/Brown/DropTopBrown.png",
+        // Add more angle/view images here: "/images/Dual/Brown/SideViewBrown.png", "/images/Dual/Brown/TopViewBrown.png", etc.
+      ],
     },
     colorNames: {
       "#eaeaea": "Paper White",
@@ -34,9 +41,16 @@ const products = [
     label: "Airdeks Light",
     name: "Airdeks Light",
     image: "/images/Single/White/Single34WhiteOpen.png",
+    // colorVariants now maps to arrays of image paths for each color
     colorVariants: {
-      "#eaeaea": "/images/Single/White/Single34WhiteOpen.png",
-      "#ba9a6e": "/images/Single/Brown/Single34Open.png",
+      "#eaeaea": [
+        "/images/Single/White/Single34WhiteOpen.png",
+        // Add more angle/view images here: "/images/Single/White/SideViewWhite.png", "/images/Single/White/TopViewWhite.png", etc.
+      ],
+      "#ba9a6e": [
+        "/images/Single/Brown/Single34Open.png",
+        // Add more angle/view images here: "/images/Single/Brown/SideViewBrown.png", "/images/Single/Brown/TopViewBrown.png", etc.
+      ],
     },
     colorNames: {
       "#eaeaea": "Paper White",

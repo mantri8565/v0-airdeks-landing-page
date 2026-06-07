@@ -8,7 +8,7 @@ interface ProductImageViewerProps {
   baseImage: string
   productName: string
   selectedColor?: string
-  colorVariants?: Record<string, string>
+  colorVariants?: Record<string, string[]>
   onColorChange?: (color: string) => void
 }
 
@@ -22,26 +22,40 @@ export function ProductImageViewer({
   const [isZoomed, setIsZoomed] = useState(false)
   const [currentImageIndex, setCurrentImageIndex] = useState(0)
   const [displayImage, setDisplayImage] = useState(baseImage)
+  const [imageViews, setImageViews] = useState<string[]>([baseImage])
 
-  // Generate multiple image views based on the base image
-  // For now, we'll use the same image, but in practice these could be different angles
-  const imageViews = [baseImage, baseImage, baseImage]
-
-  // Update display image when color changes
+  // Update image views and display image when color changes
   useEffect(() => {
-    if (selectedColor && colorVariants[selectedColor]) {
-      setDisplayImage(colorVariants[selectedColor])
+    if (selectedColor && colorVariants && colorVariants[selectedColor]) {
+      // If colorVariants[selectedColor] is an array, use it directly
+      const images = Array.isArray(colorVariants[selectedColor]) 
+        ? colorVariants[selectedColor] 
+        : [colorVariants[selectedColor]]
+      setImageViews(images)
+      setDisplayImage(images[0])
+      setCurrentImageIndex(0)
     } else {
+      // Fallback to baseImage wrapped in array
+      setImageViews([baseImage])
       setDisplayImage(baseImage)
+      setCurrentImageIndex(0)
     }
   }, [selectedColor, baseImage, colorVariants])
 
   const handlePrevImage = () => {
-    setCurrentImageIndex((prev) => (prev === 0 ? imageViews.length - 1 : prev - 1))
+    setCurrentImageIndex((prev) => {
+      const newIndex = prev === 0 ? imageViews.length - 1 : prev - 1
+      setDisplayImage(imageViews[newIndex])
+      return newIndex
+    })
   }
 
   const handleNextImage = () => {
-    setCurrentImageIndex((prev) => (prev === imageViews.length - 1 ? 0 : prev + 1))
+    setCurrentImageIndex((prev) => {
+      const newIndex = prev === imageViews.length - 1 ? 0 : prev + 1
+      setDisplayImage(imageViews[newIndex])
+      return newIndex
+    })
   }
 
   const handleKeyDown = (e: KeyboardEvent) => {
