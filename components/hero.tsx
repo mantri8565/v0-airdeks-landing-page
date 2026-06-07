@@ -30,7 +30,7 @@ export function Hero() {
         {/* Visual */}
         <div className="relative">
           <MediaContainer
-            src="/images/airdeks-hero.png"
+            src="/media/videos/shoot1.mp4"
             alt="Airdeks wall-mounted desk in a modern dark home office"
             aspectRatio="custom"
             customAspectClass="aspect-[4/5] sm:aspect-[5/4] lg:aspect-[4/5]"

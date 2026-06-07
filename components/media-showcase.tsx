@@ -7,30 +7,30 @@ const mediaItems = [
   {
     id: 1,
     type: 'image',
-    src: '/placeholder.svg?height=400&width=400',
+    src: '/media/img/airdeks best dual.jpg',
     alt: 'Product showcase 1',
-    title: 'Mobile Setup',
+    title: '',
   },
   {
     id: 2,
     type: 'image',
-    src: '/placeholder.svg?height=400&width=400',
+    src: '/media/img/open airdeks.jpg',
     alt: 'Product showcase 2',
-    title: 'Tablet Setup',
+    title: '',
   },
   {
     id: 3,
     type: 'image',
-    src: '/placeholder.svg?height=400&width=400',
+    src: '/media/videos/shoot1.mp4',
     alt: 'Product showcase 3',
-    title: 'Desktop Setup',
+    title: '',
   },
   {
     id: 4,
     type: 'image',
-    src: '/placeholder.svg?height=400&width=400',
+    src: '/media/img/side_view_indian.jpg',
     alt: 'Product showcase 4',
-    title: 'Work Environment',
+    title: '',
   },
 ]
 

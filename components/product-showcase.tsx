@@ -178,7 +178,7 @@ function ProductCard({ product }: { product: (typeof products)[number] }) {
               className="flex flex-col items-center justify-center rounded-lg border-2 border-emerald-500/40 bg-emerald-500/10 px-6 py-4 text-center font-semibold tracking-wide text-white transition-all hover:border-emerald-500/60 hover:bg-emerald-500/20 sm:flex-1"
             >
               <span className="text-base">Buy Now</span>
-              <span className="mt-1 text-xs text-slate-300">Pay On Delivery</span>
+              <span className="mt-1 text-xs text-slate-300"></span>
             </button>
           </div>
         </div>
