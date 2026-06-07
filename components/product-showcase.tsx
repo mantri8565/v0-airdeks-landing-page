@@ -8,14 +8,14 @@ const products = [
   {
     label: "Airdeks Pro",
     name: "Airdeks Pro",
-    image: "/images/airdeks-duo.png",
+    image: "/images/Dual/White/DropTopWhite.png",
     colorVariants: {
-      "#0f172a": "/images/airdeks-duo.png",
-      "#1e293b": "/images/airdeks-duo.png",
+      "#eaeaea": "/images/Dual/White/DropTopWhite.png",
+      "#ba9a6e": "/images/Dual/Brown/DropTopBrown.png",
     },
     colorNames: {
-      "#0f172a": "Deep Night",
-      "#1e293b": "Slate Gray",
+      "#eaeaea": "Paper White",
+      "#ba9a6e": "Sahara Sand",
     },
     specs: [
       "Dual Monitor Support (<=27 inches)",
@@ -28,25 +28,19 @@ const products = [
       "Hidden Cable Management",
     ],
     price: "₹24,999",
-    swatches: ["#0f172a", "#1e293b"],
+    swatches: ["#eaeaea", "#ba9a6e"],
   },
   {
     label: "Airdeks Light",
     name: "Airdeks Light",
-    image: "/images/airdeks-duo-light.png",
+    image: "/images/Single/White/Single34WhiteOpen.png",
     colorVariants: {
-      "#0f172a": "/images/airdeks-duo-light.png",
-      "#1e293b": "/images/airdeks-duo-light.png",
-      "#3f3f46": "/images/airdeks-duo-light.png",
-      "#52525b": "/images/airdeks-duo-light.png",
-      "#71717a": "/images/airdeks-duo-light.png",
+      "#eaeaea": "/images/Single/White/Single34WhiteOpen.png",
+      "#ba9a6e": "/images/Single/Brown/Single34Open.png",
     },
     colorNames: {
-      "#0f172a": "Deep Night",
-      "#1e293b": "Slate Gray",
-      "#3f3f46": "Stone",
-      "#52525b": "Carbon",
-      "#71717a": "Ash",
+      "#eaeaea": "Paper White",
+      "#ba9a6e": "Sahara Sand",
     },
     specs: [
       "Single Screen (<=34 inches)",
@@ -59,7 +53,7 @@ const products = [
       "Hidden Cable Management",
     ],
     price: "₹19,999",
-    swatches: ["#0f172a", "#1e293b"],
+    swatches: ["#eaeaea", "#ba9a6e"],
   },
 ]
 

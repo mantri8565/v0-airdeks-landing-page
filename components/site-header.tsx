@@ -34,15 +34,15 @@ export function SiteHeader() {
         <div className="flex items-center gap-4">
           {/* Desktop: Text link */}
           <a
-            href="tel:+442045773550"
-            className="hidden text-sm font-medium text-slate-300 transition-colors hover:text-white md:block"
+            href="tel:+919969965182"
+            className="hidden text-lg font-medium text-slate-300 transition-colors hover:text-white md:block"
           >
-            +44 (0) 20 4577 3550
+            +91 996 996 5182
           </a>
 
           {/* Mobile/Tablet: Call icon */}
           <a
-            href="tel:+442045773550"
+            href="tel:+919969965182"
             aria-label="Call us"
             className="flex size-10 items-center justify-center rounded-full text-slate-300 transition-colors hover:bg-white/5 hover:text-emerald-400 md:hidden"
           >
