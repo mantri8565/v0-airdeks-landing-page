@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { Loader2, X } from 'lucide-react'
 
 interface CheckoutModalProps {
@@ -26,6 +26,7 @@ interface Errors {
 
 export function CheckoutModal({ isOpen, onClose, productName, selectedColor, onSuccess }: CheckoutModalProps) {
   const productDisplayName = selectedColor ? `${productName} - ${selectedColor}` : productName
+  const scrollContainerRef = useRef<HTMLDivElement>(null)
   const [formData, setFormData] = useState<FormData>({
     name: '',
     email: '',
@@ -38,6 +39,23 @@ export function CheckoutModal({ isOpen, onClose, productName, selectedColor, onS
   const [errors, setErrors] = useState<Errors>({})
   const [isLoading, setIsLoading] = useState(false)
   const [isSubmitted, setIsSubmitted] = useState(false)
+
+  // Scroll to top when success screen is shown
+  useEffect(() => {
+    if (isSubmitted && scrollContainerRef.current) {
+      scrollContainerRef.current.scrollTop = 0
+    }
+  }, [isSubmitted])
+
+  // Disable body scroll when modal is open
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = 'hidden'
+      return () => {
+        document.body.style.overflow = 'unset'
+      }
+    }
+  }, [isOpen])
 
   const validateForm = (): boolean => {
     const newErrors: Errors = {}
@@ -123,7 +141,7 @@ export function CheckoutModal({ isOpen, onClose, productName, selectedColor, onS
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
       {!isSubmitted ? (
-        <div className="relative max-h-[90vh] w-full max-w-md overflow-y-auto rounded-2xl bg-slate-900 p-8 shadow-2xl">
+        <div ref={scrollContainerRef} className="relative max-h-[90vh] w-full max-w-md overflow-y-auto rounded-2xl bg-slate-900 p-8 shadow-2xl">
           {/* Close Button */}
           <button
             onClick={onClose}
@@ -270,7 +288,7 @@ export function CheckoutModal({ isOpen, onClose, productName, selectedColor, onS
         </div>
       ) : (
         // Success Screen
-        <div className="relative max-h-[90vh] w-full max-w-2xl overflow-y-auto rounded-2xl bg-slate-900 p-8 shadow-2xl">
+        <div ref={scrollContainerRef} className="relative max-h-[90vh] w-full max-w-2xl overflow-y-auto rounded-2xl bg-slate-900 p-8 shadow-2xl">
           <button
             onClick={onClose}
             className="absolute right-4 top-4 rounded-lg p-1 hover:bg-white/10"
