@@ -47,6 +47,16 @@ export function CheckoutModal({ isOpen, onClose, productName, selectedColor, onS
     }
   }, [isSubmitted])
 
+  // Disable body scroll when modal is open
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = 'hidden'
+      return () => {
+        document.body.style.overflow = 'unset'
+      }
+    }
+  }, [isOpen])
+
   const validateForm = (): boolean => {
     const newErrors: Errors = {}
 
