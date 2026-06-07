@@ -188,10 +188,10 @@ export function ProductImageViewer({
           onTouchEnd={handleTouchEnd}
         >
           <div className="relative max-h-screen max-w-4xl w-full flex flex-col items-center justify-center">
-            {/* Close Button - Mobile positioned on left, Desktop on right */}
+            {/* Close Button - Mobile: dark background for visibility, Desktop: subtle */}
             <button
               onClick={handleCloseZoom}
-              className="absolute top-4 left-4 z-10 rounded-full bg-white/10 p-2 hover:bg-white/20 transition-colors sm:left-auto sm:right-4"
+              className="absolute top-4 left-4 z-10 rounded-full p-2 transition-colors bg-black/70 hover:bg-black/80 sm:bg-white/10 sm:hover:bg-white/20 sm:left-auto sm:right-4"
               aria-label="Close zoom view"
             >
               <X className="size-6 text-white" />
