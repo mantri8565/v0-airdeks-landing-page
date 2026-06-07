@@ -375,7 +375,7 @@ export function CheckoutModal({ isOpen, onClose, productName, selectedColor, onS
             {(() => {
               // Build WhatsApp message with all details
               const whatsappMessage = `Hi! I wanted to follow up on my recent ${productDisplayName} reservation.\n\n*Order Details:*\nOrder ID: ${orderId}\nCustomer Name: ${formData.name}\nPhone: ${formData.countryCode}${formData.phone}\nShipping Address: ${formData.address}\nPincode: ${formData.pincode}\nProduct: ${productDisplayName}\n\nCould you please help me with priority handling for my dispatch queue? Thank you!`
-              const whatsappLink = `https://wa.me/918023456789?text=${encodeURIComponent(whatsappMessage)}`
+              const whatsappLink = `https://wa.me/919969965182?text=${encodeURIComponent(whatsappMessage)}`
 
               return (
                 <a
