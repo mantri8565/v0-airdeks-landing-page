@@ -69,7 +69,7 @@ export function ProductImageViewer({
     } else if (e.key === 'ArrowRight') {
       handleNextImage()
     } else if (e.key === 'Escape') {
-      setIsZoomed(false)
+      handleCloseZoom()
     }
   }
 
