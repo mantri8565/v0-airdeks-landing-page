@@ -57,7 +57,7 @@ export function MediaShowcase() {
           <h2 className="text-balance text-3xl font-semibold leading-tight tracking-tight text-white sm:text-4xl lg:text-5xl">
             See Airdeks in action
           </h2>
-          <p className="mt-4 max-w-3xl text-lg leading-relaxed text-slate-300">
+          <p className="mt-4 max-w-4xl text-lg leading-relaxed text-slate-300">
             Watch how Airdeks transforms different workspaces into streamlined, productive environments.
           </p>
         </div>
