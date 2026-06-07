@@ -136,8 +136,18 @@ export function ProductImageViewer({
     if (isZoomed) {
       window.addEventListener('keydown', handleKeyDown)
       document.body.style.overflow = 'hidden'
+      
+      // Handle browser back button on mobile
+      window.history.pushState(null, '', window.location.href)
+      const handlePopState = () => {
+        handleCloseZoom()
+        window.history.pushState(null, '', window.location.href)
+      }
+      window.addEventListener('popstate', handlePopState)
+      
       return () => {
         window.removeEventListener('keydown', handleKeyDown)
+        window.removeEventListener('popstate', handlePopState)
         document.body.style.overflow = 'unset'
       }
     }
