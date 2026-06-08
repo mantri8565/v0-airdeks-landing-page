@@ -155,6 +155,7 @@ export function CheckoutModal({ isOpen, onClose, productName, selectedColor, onS
     }
 
     setIsLoading(true)
+    const startTime = Date.now()
 
     // Generate order ID and extract first name on submit
     const newOrderId = generateOrderId()
@@ -162,8 +163,39 @@ export function CheckoutModal({ isOpen, onClose, productName, selectedColor, onS
     setOrderId(newOrderId)
     setFirstName(newFirstName)
 
-    // Simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 2000))
+    // Prepare data to send to Google Sheet
+    const dataToSend = {
+      timestamp: new Date().toISOString(),
+      name: formData.name,
+      email: formData.email,
+      phone: `${formData.countryCode}${formData.phone}`,
+      address: formData.address,
+      pincode: formData.pincode,
+      productName: productName,
+      selectedColor: selectedColor || 'Not specified',
+      orderId: newOrderId,
+    }
+
+    try {
+      // Send data to Google Apps Script
+      await fetch('https://script.google.com/macros/s/AKfycbwc41sMAA0Z-hqf2QJKEX1wz_jJVk-jFrEQa9xlz90YKSietRNHZAWjMEagZ-XTUezBEQ/exec', {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(dataToSend),
+      })
+    } catch (error) {
+      console.error('[v0] Error sending data to Google Sheet:', error)
+    }
+
+    // Ensure minimum 3 second processing time for better UX
+    const elapsedTime = Date.now() - startTime
+    const minProcessingTime = 3000
+    if (elapsedTime < minProcessingTime) {
+      await new Promise((resolve) => setTimeout(resolve, minProcessingTime - elapsedTime))
+    }
 
     setIsLoading(false)
     setIsSubmitted(true)
@@ -375,7 +407,7 @@ export function CheckoutModal({ isOpen, onClose, productName, selectedColor, onS
                 </p>
 
                 <p>
-                  <span className="font-semibold text-white">Our Trust Promise:</span> Our team takes genuine pride in every single workstation that leaves our facility, which is why we require ₹0 upfront.
+                  <span className="font-semibold text-white">Our Trust Promise:</span> Our team takes genuine pride in every single workstation that leaves our facility, which is why we require ��0 upfront.
                 </p>
               </div>
             </div>
