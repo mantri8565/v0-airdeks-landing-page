@@ -155,6 +155,7 @@ export function CheckoutModal({ isOpen, onClose, productName, selectedColor, onS
     }
 
     setIsLoading(true)
+    const startTime = Date.now()
 
     // Generate order ID and extract first name on submit
     const newOrderId = generateOrderId()
@@ -187,6 +188,13 @@ export function CheckoutModal({ isOpen, onClose, productName, selectedColor, onS
       })
     } catch (error) {
       console.error('[v0] Error sending data to Google Sheet:', error)
+    }
+
+    // Ensure minimum 3 second processing time for better UX
+    const elapsedTime = Date.now() - startTime
+    const minProcessingTime = 3000
+    if (elapsedTime < minProcessingTime) {
+      await new Promise((resolve) => setTimeout(resolve, minProcessingTime - elapsedTime))
     }
 
     setIsLoading(false)
@@ -399,7 +407,7 @@ export function CheckoutModal({ isOpen, onClose, productName, selectedColor, onS
                 </p>
 
                 <p>
-                  <span className="font-semibold text-white">Our Trust Promise:</span> Our team takes genuine pride in every single workstation that leaves our facility, which is why we require ₹0 upfront.
+                  <span className="font-semibold text-white">Our Trust Promise:</span> Our team takes genuine pride in every single workstation that leaves our facility, which is why we require ��0 upfront.
                 </p>
               </div>
             </div>
