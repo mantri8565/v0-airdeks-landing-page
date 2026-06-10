@@ -190,6 +190,18 @@ export function CheckoutModal({ isOpen, onClose, productName, selectedColor, onS
       console.error('[v0] Error sending data to Google Sheet:', error)
     }
 
+    // Fire GA4 conversion event for checkout success
+    if (typeof window !== 'undefined' && typeof window.gtag !== 'undefined') {
+      window.gtag('event', 'initiate_checkout_success', {
+        'product_name': productName
+      })
+    }
+
+    // Fire LinkedIn conversion event
+    if (typeof window !== 'undefined' && typeof (window as any).lintrk !== 'undefined') {
+      (window as any).lintrk('track', { conversion_id: 'YOUR_LINKEDIN_CONVERSION_ID' })
+    }
+
     // Ensure minimum 3 second processing time for better UX
     const elapsedTime = Date.now() - startTime
     const minProcessingTime = 3000
