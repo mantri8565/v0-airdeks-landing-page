@@ -160,10 +160,16 @@ function ProductCard({ product }: { product: (typeof products)[number] }) {
               const whatsappLink = `https://wa.me/919969965182?text=${encodeURIComponent(whatsappMessage)}`
 
               const handleWhatsAppClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
-                // Safe browser check and fire GA4 event
+                // Safe browser check and fire GA4 event using Google's standard select_item event
                 if (typeof window !== 'undefined' && typeof window.gtag !== 'undefined') {
-                  window.gtag('event', 'click_whatsapp_order', {
-                    'product_name_and_color': `${product.name} - ${colorName}`
+                  window.gtag('event', 'select_item', {
+                    item_list_name: 'WhatsApp Inquiries',
+                    items: [
+                      {
+                        item_name: product.name,
+                        item_variant: colorName,
+                      },
+                    ],
                   })
                 }
 
@@ -190,11 +196,16 @@ function ProductCard({ product }: { product: (typeof products)[number] }) {
             {/* Secondary CTA - Buy Now */}
             <button
               onClick={() => {
-                // Safe browser check and fire GA4 event
+                // Safe browser check and fire GA4 event using Google's standard begin_checkout event
                 if (typeof window !== 'undefined' && typeof window.gtag !== 'undefined') {
                   const colorName = product.colorNames[selectedColor as keyof typeof product.colorNames] || 'Color'
-                  window.gtag('event', 'click_buy_now', {
-                    'product_name_and_color': `${product.name} - ${colorName}`
+                  window.gtag('event', 'begin_checkout', {
+                    items: [
+                      {
+                        item_name: product.name,
+                        item_variant: colorName,
+                      },
+                    ],
                   })
                 }
                 setIsModalOpen(true)
