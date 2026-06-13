@@ -49,7 +49,7 @@ export default function RootLayout({
 
         {/* 1. Google Analytics 4 */}
         <Script 
-          src="https://www.googletagmanager.com/gtag/js?id=G-YOUR_GA4_ID" 
+          src="https://www.googletagmanager.com/gtag/js?id=G-C32NCBDT9Q" 
           strategy="afterInteractive" 
         />
         <Script id="google-analytics" strategy="afterInteractive">
@@ -57,7 +57,7 @@ export default function RootLayout({
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
             gtag('js', new Date());
-            gtag('config', 'G-YOUR_GA4_ID');
+            gtag('config', 'G-C32NCBDT9Q');
           `}
         </Script>
 
@@ -68,7 +68,7 @@ export default function RootLayout({
                 c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
                 t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
                 y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-            })(window, document, "clarity", "script", "YOUR_CLARITY_PROJECT_ID");
+            })(window, document, "clarity", "script", "x4z182y04c");
           `}
         </Script>
 
