@@ -52,14 +52,14 @@ const products = [
         "/images/Single/Single34DimBG.png",
         "/images/Single/White/SingleOpenWhiteinternal.png",
         "/images/Single/White/WhiteClosedSingle.png",
-        
+
       ],
       "#ba9a6e": [
         "/images/Single/Brown/Single34Open.png",
         "/images/Single/Single34DimBG.png",
         "/images/Single/Brown/BrownOpenInternal.png",
         "/images/Single/Brown/BrownSingleclosed.png",
-        
+
       ],
     },
     colorNames: {
@@ -115,11 +115,10 @@ function ProductCard({ product }: { product: (typeof products)[number] }) {
                       onClick={() => setSelectedColor(color)}
                       onMouseEnter={() => setHoveredColor(color)}
                       onMouseLeave={() => setHoveredColor(null)}
-                      className={`size-10 rounded-md border-2 transition-all ring-offset-2 ring-offset-slate-900 ${
-                        selectedColor === color
+                      className={`size-10 rounded-md border-2 transition-all ring-offset-2 ring-offset-slate-900 ${selectedColor === color
                           ? 'border-emerald-400 ring-2 ring-emerald-400'
                           : 'border-white/15 hover:border-white/30'
-                      }`}
+                        }`}
                       style={{ backgroundColor: color }}
                       aria-label={`Select ${product.colorNames[color as keyof typeof product.colorNames]} color`}
                     />
@@ -173,10 +172,10 @@ function ProductCard({ product }: { product: (typeof products)[number] }) {
                   })
                 }
 
-                // Fire LinkedIn conversion event
+                {/*/// Fire LinkedIn conversion event
                 if (typeof window !== 'undefined' && typeof (window as any).lintrk !== 'undefined') {
                   (window as any).lintrk('track', { conversion_id: 'YOUR_LINKEDIN_WHATSAPP_CONVERSION_ID' })
-                }
+                }*/}
               }
 
               return (

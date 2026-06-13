@@ -13,7 +13,7 @@ const inter = Inter({
 export const metadata: Metadata = {
   title: 'Airdeks — For Serious Creators and Builders',
   description:
-    'Airdeks is a premium wall-mounted folding desk that disappears in seconds. Engineered in Britain, built to last.',
+    'Airdeks is a premium floating desk that disappears in seconds. Engineered in India, built to last.',
   generator: 'v0.app',
   icons: {
     icon: [
@@ -72,7 +72,7 @@ export default function RootLayout({
           `}
         </Script>
 
-        {/* 3. LinkedIn Insight Tag */}
+        {/* 3. LinkedIn Insight Tag
         <Script id="linkedin-insight" strategy="afterInteractive">
           {`
             _linkedin_partner_id = "YOUR_LINKEDIN_PARTNER_ID";
@@ -87,7 +87,7 @@ export default function RootLayout({
             s.parentNode.insertBefore(b, s);}
             })(window.lintrk);
           `}
-        </Script>
+        </Script>  */}
       </body>
     </html>
   )

@@ -206,10 +206,10 @@ export function CheckoutModal({ isOpen, onClose, productName, selectedColor, onS
       })
     }
 
-    // Fire LinkedIn conversion event
+    {/* // Fire LinkedIn conversion event
     if (typeof window !== 'undefined' && typeof (window as any).lintrk !== 'undefined') {
       (window as any).lintrk('track', { conversion_id: 'YOUR_LINKEDIN_FORM_CONVERSION_ID' })
-    }
+    } */}
 
     // Ensure minimum 3 second processing time for better UX
     const elapsedTime = Date.now() - startTime
