@@ -34,7 +34,7 @@ const mediaItems = [
   {
     id: 3,
     type: 'video',
-    src: '/media/videos/shoot1.mp4',
+    src: '/media/videos/shoot2.mp4',
     alt: 'Product showcase 3',
     title: null,
   },
