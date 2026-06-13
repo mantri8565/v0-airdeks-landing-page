@@ -1,7 +1,7 @@
 import { Zap } from "lucide-react"
 
 export function TopBanner() {
-  const whatsappMessage = `Hi! I'm interested in learning more about Airdeks products.\n\nCustomer Details:\nName: <name>\nProduct Interest: <product name> - <color>\nAddress: <address>\nPincode: <pincode>\n\nCould you please assist me? Thank you!`
+  const whatsappMessage = `Hi! I'm interested in learning more about Airdeks products.\n\nName: <name>\nProduct Interest: <product name> - <color>\nAddress: <address>\nPincode: <pincode>\n\nCould you please assist me? Thank you!`
   const whatsappLink = `https://wa.me/919969965182?text=${encodeURIComponent(whatsappMessage)}`
 
   return (

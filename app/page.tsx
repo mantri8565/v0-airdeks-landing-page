@@ -19,8 +19,8 @@ export default function Page() {
         <Painpoints />
         <MediaShowcase />
         <Benefits />
-        <ProductShowcase />
         <TrustBadges />
+        <ProductShowcase />        
       </main>
       <SiteFooter />
     </div>
