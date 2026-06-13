@@ -190,6 +190,27 @@ export function CheckoutModal({ isOpen, onClose, productName, selectedColor, onS
       console.error('[v0] Error sending data to Google Sheet:', error)
     }
 
+    // Fire GA4 conversion event using Google's standard purchase event
+    // TODO: Adjust value (currently 25,000) and currency (currently 'INR') as needed for your pricing
+    if (typeof window !== 'undefined' && typeof window.gtag !== 'undefined') {
+      window.gtag('event', 'purchase', {
+        transaction_id: newOrderId,
+        value: 25000,
+        currency: 'INR',
+        items: [
+          {
+            item_name: productName,
+            item_variant: selectedColor || 'Not specified',
+          },
+        ],
+      })
+    }
+
+    {/* // Fire LinkedIn conversion event
+    if (typeof window !== 'undefined' && typeof (window as any).lintrk !== 'undefined') {
+      (window as any).lintrk('track', { conversion_id: 'YOUR_LINKEDIN_FORM_CONVERSION_ID' })
+    } */}
+
     // Ensure minimum 3 second processing time for better UX
     const elapsedTime = Date.now() - startTime
     const minProcessingTime = 3000

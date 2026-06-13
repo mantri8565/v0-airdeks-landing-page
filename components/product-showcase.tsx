@@ -52,14 +52,14 @@ const products = [
         "/images/Single/Single34DimBG.png",
         "/images/Single/White/SingleOpenWhiteinternal.png",
         "/images/Single/White/WhiteClosedSingle.png",
-        
+
       ],
       "#ba9a6e": [
         "/images/Single/Brown/Single34Open.png",
         "/images/Single/Single34DimBG.png",
         "/images/Single/Brown/BrownOpenInternal.png",
         "/images/Single/Brown/BrownSingleclosed.png",
-        
+
       ],
     },
     colorNames: {
@@ -115,11 +115,10 @@ function ProductCard({ product }: { product: (typeof products)[number] }) {
                       onClick={() => setSelectedColor(color)}
                       onMouseEnter={() => setHoveredColor(color)}
                       onMouseLeave={() => setHoveredColor(null)}
-                      className={`size-10 rounded-md border-2 transition-all ring-offset-2 ring-offset-slate-900 ${
-                        selectedColor === color
+                      className={`size-10 rounded-md border-2 transition-all ring-offset-2 ring-offset-slate-900 ${selectedColor === color
                           ? 'border-emerald-400 ring-2 ring-emerald-400'
                           : 'border-white/15 hover:border-white/30'
-                      }`}
+                        }`}
                       style={{ backgroundColor: color }}
                       aria-label={`Select ${product.colorNames[color as keyof typeof product.colorNames]} color`}
                     />
@@ -159,9 +158,30 @@ function ProductCard({ product }: { product: (typeof products)[number] }) {
               const whatsappMessage = `Hi! I'm interested in customizing my ${productInfo} order.\n\nCustomer Details:\nName: <name>\nAddress: <address>\nPincode: <pincode>\n\nProduct: ${productInfo}\n\nCould you please help me with customization options? Thank you!`
               const whatsappLink = `https://wa.me/919969965182?text=${encodeURIComponent(whatsappMessage)}`
 
+              const handleWhatsAppClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+                // Safe browser check and fire GA4 event using Google's standard select_item event
+                if (typeof window !== 'undefined' && typeof window.gtag !== 'undefined') {
+                  window.gtag('event', 'select_item', {
+                    item_list_name: 'WhatsApp Inquiries',
+                    items: [
+                      {
+                        item_name: product.name,
+                        item_variant: colorName,
+                      },
+                    ],
+                  })
+                }
+
+                {/*/// Fire LinkedIn conversion event
+                if (typeof window !== 'undefined' && typeof (window as any).lintrk !== 'undefined') {
+                  (window as any).lintrk('track', { conversion_id: 'YOUR_LINKEDIN_WHATSAPP_CONVERSION_ID' })
+                }*/}
+              }
+
               return (
                 <a
                   href={whatsappLink}
+                  onClick={handleWhatsAppClick}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex flex-col items-center justify-center rounded-lg bg-emerald-500 px-6 py-4 text-center font-semibold tracking-wide text-slate-950 transition-colors hover:bg-emerald-400 sm:flex-1"
@@ -174,7 +194,21 @@ function ProductCard({ product }: { product: (typeof products)[number] }) {
 
             {/* Secondary CTA - Buy Now */}
             <button
-              onClick={() => setIsModalOpen(true)}
+              onClick={() => {
+                // Safe browser check and fire GA4 event using Google's standard begin_checkout event
+                if (typeof window !== 'undefined' && typeof window.gtag !== 'undefined') {
+                  const colorName = product.colorNames[selectedColor as keyof typeof product.colorNames] || 'Color'
+                  window.gtag('event', 'begin_checkout', {
+                    items: [
+                      {
+                        item_name: product.name,
+                        item_variant: colorName,
+                      },
+                    ],
+                  })
+                }
+                setIsModalOpen(true)
+              }}
               className="flex flex-col items-center justify-center rounded-lg border-2 border-emerald-500/40 bg-emerald-500/10 px-6 py-4 text-center font-semibold tracking-wide text-white transition-all hover:border-emerald-500/60 hover:bg-emerald-500/20 sm:flex-1"
             >
               <span className="text-base">Buy Now</span>
