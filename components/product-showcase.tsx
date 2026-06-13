@@ -155,7 +155,7 @@ function ProductCard({ product }: { product: (typeof products)[number] }) {
             {(() => {
               const colorName = product.colorNames[selectedColor as keyof typeof product.colorNames] || 'Color'
               const productInfo = selectedColor ? `${product.name} - ${colorName}` : `<${product.name}> <${colorName}>`
-              const whatsappMessage = `Hi! I'm interested in customizing my ${productInfo} order.\n\nCustomer Details:\nName: <name>\nAddress: <address>\nPincode: <pincode>\n\nProduct: ${productInfo}\n\nCould you please help me with customization options? Thank you!`
+              const whatsappMessage = `Hi! I'm interested in customizing my ${productInfo} order.\n\nName: <name>\nAddress: <address>\nPincode: <pincode>\n\nProduct: ${productInfo}\n\nCould you please help me with customization options? Thank you!`
               const whatsappLink = `https://wa.me/919969965182?text=${encodeURIComponent(whatsappMessage)}`
 
               const handleWhatsAppClick = (e: React.MouseEvent<HTMLAnchorElement>) => {

@@ -14,7 +14,7 @@ export function Hero() {
           </p>
 
           <p className="mt-8 text-sm font-medium text-slate-300">
-            Starting from ₹17,999 (Includes Industrial-Grade Full-Motion Mount Stand)
+            Starting from ₹19,999 (Includes Industrial-Grade Full-Motion Mount Stand)
           </p>
 
           <div className="mt-4 flex w-full flex-col gap-3 sm:w-auto sm:flex-row">
