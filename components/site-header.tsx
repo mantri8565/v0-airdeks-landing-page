@@ -1,17 +1,19 @@
 "use client"
-
+import Image from "next/image"
 import { Phone } from "lucide-react"
 
 function Logo() {
   return (
     <a href="#" className="flex items-center gap-3" aria-label="Airdeks home">
-      <span className="flex size-9 items-center justify-center rounded-md bg-emerald-500">
-        <svg viewBox="0 0 24 24" className="size-5 text-slate-950" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-          <path d="M3 5h18" />
-          <path d="M5 5v6h14V5" />
-          <path d="M8 11v3" />
-          <path d="M16 11v3" />
-        </svg>
+      <span className="flex size-9 items-center justify-center rounded-md bg-emerald-500 overflow-hidden p-1">
+        <Image
+          src="/logo.png"
+          alt="Airdeks logo"
+          width={36}
+          height={36}
+          className="object-contain size-full"
+        />
+
       </span>
       <div className="flex flex-col items-start">
         <span className="text-lg font-semibold leading-tight tracking-tight text-white">
