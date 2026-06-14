@@ -115,11 +115,19 @@ export function Testimonials() {
           </p>
         </div>
 
-        {/* Testimonials Grid */}
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
-          {testimonials.map((testimonial) => (
-            <TestimonialCard key={testimonial.id} testimonial={testimonial} />
-          ))}
+        {/* Testimonials Horizontal Scroll */}
+        <div className="relative">
+          <div className="overflow-x-auto pb-4 scrollbar-hide">
+            <div className="flex gap-6">
+              {testimonials.map((testimonial) => (
+                <div key={testimonial.id} className="min-w-full md:min-w-96">
+                  <TestimonialCard testimonial={testimonial} />
+                </div>
+              ))}
+            </div>
+          </div>
+          {/* Scroll Hint */}
+          <div className="pointer-events-none absolute bottom-0 right-0 h-12 w-12 bg-gradient-to-l from-slate-950 to-transparent" />
         </div>
       </div>
     </section>
