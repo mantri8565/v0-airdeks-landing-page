@@ -5,6 +5,7 @@ import { Painpoints, Benefits } from "@/components/benefits"
 import { MediaShowcase } from "@/components/media-showcase"
 import { ProductShowcase } from "@/components/product-showcase"
 import { TrustBadges } from "@/components/trust-badges"
+import { Testimonials } from "@/components/testimonials"
 import { SiteFooter } from "@/components/site-footer"
 
 export default function Page() {
@@ -20,7 +21,8 @@ export default function Page() {
         <MediaShowcase />
         <Benefits />
         <TrustBadges />
-        <ProductShowcase />        
+        <ProductShowcase />
+        <Testimonials />        
       </main>
       <SiteFooter />
     </div>
