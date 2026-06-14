@@ -1,7 +1,8 @@
 'use client'
 
 import Image from 'next/image'
-import { Star } from 'lucide-react'
+import { Star, ChevronLeft, ChevronRight } from 'lucide-react'
+import { useRef, useState } from 'react'
 
 interface Testimonial {
   id: string
@@ -101,6 +102,52 @@ function TestimonialCard({ testimonial }: { testimonial: Testimonial }) {
 }
 
 export function Testimonials() {
+  const scrollContainerRef = useRef<HTMLDivElement>(null)
+  const [showLeftArrow, setShowLeftArrow] = useState(false)
+  const [showRightArrow, setShowRightArrow] = useState(true)
+  const [touchStart, setTouchStart] = useState(0)
+  const [touchEnd, setTouchEnd] = useState(0)
+
+  const handleScroll = () => {
+    if (scrollContainerRef.current) {
+      const { scrollLeft, scrollWidth, clientWidth } = scrollContainerRef.current
+      setShowLeftArrow(scrollLeft > 0)
+      setShowRightArrow(scrollLeft < scrollWidth - clientWidth - 10)
+    }
+  }
+
+  const scroll = (direction: 'left' | 'right') => {
+    if (scrollContainerRef.current) {
+      const scrollAmount = 400
+      scrollContainerRef.current.scrollBy({
+        left: direction === 'left' ? -scrollAmount : scrollAmount,
+        behavior: 'smooth',
+      })
+    }
+  }
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    setTouchStart(e.targetTouches[0].clientX)
+  }
+
+  const handleTouchEnd = (e: React.TouchEvent) => {
+    setTouchEnd(e.changedTouches[0].clientX)
+    handleSwipe()
+  }
+
+  const handleSwipe = () => {
+    if (!touchStart || !touchEnd) return
+    const distance = touchStart - touchEnd
+    const isLeftSwipe = distance > 50
+    const isRightSwipe = distance < -50
+
+    if (isLeftSwipe) {
+      scroll('right')
+    } else if (isRightSwipe) {
+      scroll('left')
+    }
+  }
+
   return (
     <section className="border-b border-white/10">
       <div className="mx-auto max-w-7xl px-6 py-16 md:py-24 lg:px-8">
@@ -116,8 +163,37 @@ export function Testimonials() {
         </div>
 
         {/* Testimonials Horizontal Scroll */}
-        <div className="relative">
-          <div className="overflow-x-auto pb-4 scrollbar-hide">
+        <div className="relative group">
+          {/* Left Arrow */}
+          <button
+            onClick={() => scroll('left')}
+            className={`absolute -left-4 top-1/2 z-10 -translate-y-1/2 rounded-full bg-emerald-400/20 p-2 backdrop-blur-sm transition-all hover:bg-emerald-400/40 md:-left-6 ${
+              !showLeftArrow ? 'pointer-events-none opacity-0' : 'opacity-0 group-hover:opacity-100'
+            }`}
+            aria-label="Scroll left"
+          >
+            <ChevronLeft className="text-emerald-400" size={24} />
+          </button>
+
+          {/* Right Arrow */}
+          <button
+            onClick={() => scroll('right')}
+            className={`absolute -right-4 top-1/2 z-10 -translate-y-1/2 rounded-full bg-emerald-400/20 p-2 backdrop-blur-sm transition-all hover:bg-emerald-400/40 md:-right-6 ${
+              !showRightArrow ? 'pointer-events-none opacity-0' : 'opacity-0 group-hover:opacity-100'
+            }`}
+            aria-label="Scroll right"
+          >
+            <ChevronRight className="text-emerald-400" size={24} />
+          </button>
+
+          {/* Scroll Container */}
+          <div
+            ref={scrollContainerRef}
+            onScroll={handleScroll}
+            onTouchStart={handleTouchStart}
+            onTouchEnd={handleTouchEnd}
+            className="overflow-x-auto pb-4 scrollbar-hide"
+          >
             <div className="flex gap-6">
               {testimonials.map((testimonial) => (
                 <div key={testimonial.id} className="min-w-full md:min-w-96">
@@ -126,8 +202,9 @@ export function Testimonials() {
               ))}
             </div>
           </div>
-          {/* Scroll Hint */}
-          <div className="pointer-events-none absolute bottom-0 right-0 h-12 w-12 bg-gradient-to-l from-slate-950 to-transparent" />
+
+          {/* Mobile Swipe Hint */}
+          <div className="md:hidden pointer-events-none absolute bottom-0 right-0 h-12 w-12 bg-gradient-to-l from-slate-950 to-transparent" />
         </div>
       </div>
     </section>
