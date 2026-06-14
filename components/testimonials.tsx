@@ -3,6 +3,7 @@
 import Image from 'next/image'
 import { Star, ChevronLeft, ChevronRight } from 'lucide-react'
 import { useRef, useState, useEffect } from 'react'
+import test from 'node:test'
 
 interface Testimonial {
   id: string
@@ -110,7 +111,7 @@ export function Testimonials() {
   const isResetRef = useRef(false)
 
   // Duplicate testimonials for infinite loop
-  const loopedTestimonials = [...testimonials, ...testimonials, ...testimonials]
+  const loopedTestimonials = [...testimonials, ...testimonials, ...testimonials, ...testimonials, ...testimonials, ...testimonials, ...testimonials, ...testimonials, ...testimonials, ...testimonials,]
 
   useEffect(() => {
     // Initialize scroll position to the middle set of testimonials
