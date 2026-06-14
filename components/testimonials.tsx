@@ -2,7 +2,7 @@
 
 import Image from 'next/image'
 import { Star, ChevronLeft, ChevronRight } from 'lucide-react'
-import { useRef, useState } from 'react'
+import { useRef, useState, useEffect } from 'react'
 
 interface Testimonial {
   id: string
@@ -107,12 +107,47 @@ export function Testimonials() {
   const [showRightArrow, setShowRightArrow] = useState(true)
   const [touchStart, setTouchStart] = useState(0)
   const [touchEnd, setTouchEnd] = useState(0)
+  const isResetRef = useRef(false)
+
+  // Duplicate testimonials for infinite loop
+  const loopedTestimonials = [...testimonials, ...testimonials, ...testimonials]
+
+  useEffect(() => {
+    // Initialize scroll position to the middle set of testimonials
+    if (scrollContainerRef.current && !isResetRef.current) {
+      const cardWidth = 400 // md:min-w-96 is approximately 400px
+      const gapWidth = 24 // gap-6 is 24px
+      const itemWidth = cardWidth + gapWidth
+      const initialScroll = itemWidth * testimonials.length
+      
+      scrollContainerRef.current.scrollLeft = initialScroll
+      isResetRef.current = true
+    }
+  }, [])
 
   const handleScroll = () => {
     if (scrollContainerRef.current) {
       const { scrollLeft, scrollWidth, clientWidth } = scrollContainerRef.current
-      setShowLeftArrow(scrollLeft > 0)
-      setShowRightArrow(scrollLeft < scrollWidth - clientWidth - 10)
+      
+      // Check if we've scrolled to the end, if so loop back to start
+      if (scrollLeft >= scrollWidth - clientWidth - 20) {
+        // Reset to beginning of middle set
+        const cardWidth = 400
+        const gapWidth = 24
+        const itemWidth = cardWidth + gapWidth
+        scrollContainerRef.current.scrollLeft = itemWidth * testimonials.length
+      } 
+      // Check if we've scrolled to the beginning, if so loop to end
+      else if (scrollLeft <= 20) {
+        const cardWidth = 400
+        const gapWidth = 24
+        const itemWidth = cardWidth + gapWidth
+        scrollContainerRef.current.scrollLeft = itemWidth * testimonials.length * 2 - itemWidth
+      }
+
+      // Always show arrows in looped carousel
+      setShowLeftArrow(true)
+      setShowRightArrow(true)
     }
   }
 
@@ -195,8 +230,8 @@ export function Testimonials() {
             className="overflow-x-auto pb-4 scrollbar-hide"
           >
             <div className="flex gap-6">
-              {testimonials.map((testimonial) => (
-                <div key={testimonial.id} className="min-w-full md:min-w-96">
+              {loopedTestimonials.map((testimonial, index) => (
+                <div key={`${testimonial.id}-${index}`} className="min-w-full md:min-w-96">
                   <TestimonialCard testimonial={testimonial} />
                 </div>
               ))}
