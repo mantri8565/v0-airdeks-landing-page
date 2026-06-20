@@ -42,7 +42,7 @@ const testimonials: Testimonial[] = [
   {
     id: '4',
     image: '/images/test_2.jpg',
-    name: 'Neha Singh',
+    name: 'Shreya Oberoi',
     designation: 'Consultant',
     rating: 5,
     text: 'The dual Type-C ports and built-in power sockets are a lifesaver for my streaming setup. Having just one main power cable running to the desk keeps the whole area looking completely pristine. On top of that, their customer service team was amazing and made the whole experience seamless. Highly recommend.',
