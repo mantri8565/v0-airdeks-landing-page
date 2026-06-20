@@ -192,10 +192,10 @@ export function CheckoutModal({ isOpen, onClose, productName, selectedColor, onS
 
     // Fire GA4 conversion event using Google's standard purchase event
     // TODO: Adjust value (currently 25,000) and currency (currently 'INR') as needed for your pricing
-    if (typeof window !== 'undefined' && typeof window.gtag !== 'undefined') {
-      window.gtag('event', 'purchase', {
+    if (typeof window !== 'undefined' && typeof (window as any).gtag !== 'undefined') {
+      (window as any).gtag('event', 'purchase', {
         transaction_id: newOrderId,
-        value: 25000,
+        value: productName.includes('Pro') ? 24999 : 19999,
         currency: 'INR',
         items: [
           {
@@ -206,10 +206,20 @@ export function CheckoutModal({ isOpen, onClose, productName, selectedColor, onS
       })
     }
 
-    {/* // Fire LinkedIn conversion event
+    /*// Fire LinkedIn conversion event
     if (typeof window !== 'undefined' && typeof (window as any).lintrk !== 'undefined') {
       (window as any).lintrk('track', { conversion_id: 'YOUR_LINKEDIN_FORM_CONVERSION_ID' })
-    } */}
+    } */
+
+    // Fire Meta Lead event BEFORE you send data
+    if (typeof window !== 'undefined' && (window as any).fbq) {
+      (window as any).fbq('track', 'Lead', {
+        content_name: productName,
+        content_category: 'Pay on Delivery Reserve',
+        value: productName.includes('Pro') ? 24999 : 19999,
+        currency: 'INR'
+      });
+    }
 
     // Ensure minimum 3 second processing time for better UX
     const elapsedTime = Date.now() - startTime

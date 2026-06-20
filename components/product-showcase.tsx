@@ -160,8 +160,8 @@ function ProductCard({ product }: { product: (typeof products)[number] }) {
 
               const handleWhatsAppClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
                 // Safe browser check and fire GA4 event using Google's standard select_item event
-                if (typeof window !== 'undefined' && typeof window.gtag !== 'undefined') {
-                  window.gtag('event', 'select_item', {
+                if (typeof window !== 'undefined' && typeof (window as any).gtag !== 'undefined') {
+                  (window as any).gtag('event', 'select_item', {
                     item_list_name: 'WhatsApp Inquiries',
                     items: [
                       {
@@ -172,10 +172,20 @@ function ProductCard({ product }: { product: (typeof products)[number] }) {
                   })
                 }
 
-                {/*/// Fire LinkedIn conversion event
+                /*//Fire LinkedIn conversion event
                 if (typeof window !== 'undefined' && typeof (window as any).lintrk !== 'undefined') {
                   (window as any).lintrk('track', { conversion_id: 'YOUR_LINKEDIN_WHATSAPP_CONVERSION_ID' })
-                }*/}
+                }*/
+
+                // Fire Meta event
+                if (typeof window !== 'undefined' && (window as any).fbq) {
+                  (window as any).fbq('track', 'Contact', {
+                    content_name: `${product.name}`,
+                    content_category: 'WhatsApp Order',
+                    value: product.name.includes('Pro') ? 24999 : 19999,
+                    currency: 'INR'
+                  });
+                }
               }
 
               return (
@@ -195,18 +205,23 @@ function ProductCard({ product }: { product: (typeof products)[number] }) {
             {/* Secondary CTA - Buy Now */}
             <button
               onClick={() => {
-                // Safe browser check and fire GA4 event using Google's standard begin_checkout event
-                if (typeof window !== 'undefined' && typeof window.gtag !== 'undefined') {
-                  const colorName = product.colorNames[selectedColor as keyof typeof product.colorNames] || 'Color'
-                  window.gtag('event', 'begin_checkout', {
+    		    const colorName = product.colorNames[selectedColor as keyof typeof product.colorNames] || 'Color'
+    		    const numericalPrice = product.name.includes('Pro') ? 24999 : 19999
+                /*// Safe browser check and fire GA4 event using Google's standard begin_checkout event
+                if (typeof window !== 'undefined' && typeof (window as any).gtag !== 'undefined') {
+                  (window as any).gtag('event', 'begin_checkout', {
+        	        currency: 'INR',
+        	        value: numericalPrice,
                     items: [
                       {
                         item_name: product.name,
                         item_variant: colorName,
+            		price: numericalPrice,
+            		quantity: 1
                       },
                     ],
                   })
-                }
+                }*/
                 setIsModalOpen(true)
               }}
               className="flex flex-col items-center justify-center rounded-lg border-2 border-emerald-500/40 bg-emerald-500/10 px-6 py-4 text-center font-semibold tracking-wide text-white transition-all hover:border-emerald-500/60 hover:bg-emerald-500/20 sm:flex-1"
