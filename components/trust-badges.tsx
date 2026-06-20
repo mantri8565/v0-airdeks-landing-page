@@ -9,7 +9,7 @@ const badges = [
   {
     icon: MapPin,
     title: "Made in India",
-    sub: "Proudly engineered and assembled in India",
+    sub: "Proudly engineered and manufactured in India",
   },
   {
     icon: ShieldCheck,
