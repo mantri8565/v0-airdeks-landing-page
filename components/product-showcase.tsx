@@ -227,7 +227,7 @@ function ProductCard({ product }: { product: (typeof products)[number] }) {
                 if (typeof window !== 'undefined' && (window as any).fbq) {
                   (window as any).fbq('track', 'InitiateCheckout', {
                     content_name: `${product.name}`,
-                    content_category: 'WhatsApp Order',
+                    content_category: 'Online Order',
                     value: product.name.includes('Pro') ? 24999 : 19999,
                     currency: 'INR'
                   });
