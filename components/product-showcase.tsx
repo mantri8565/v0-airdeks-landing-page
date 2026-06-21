@@ -222,6 +222,17 @@ function ProductCard({ product }: { product: (typeof products)[number] }) {
                     ],
                   })
                 }*/
+
+                // Fire Meta event
+                if (typeof window !== 'undefined' && (window as any).fbq) {
+                  (window as any).fbq('track', 'InitiateCheckout', {
+                    content_name: `${product.name}`,
+                    content_category: 'WhatsApp Order',
+                    value: product.name.includes('Pro') ? 24999 : 19999,
+                    currency: 'INR'
+                  });
+                }
+
                 setIsModalOpen(true)
               }}
               className="flex flex-col items-center justify-center rounded-lg border-2 border-emerald-500/40 bg-emerald-500/10 px-6 py-4 text-center font-semibold tracking-wide text-white transition-all hover:border-emerald-500/60 hover:bg-emerald-500/20 sm:flex-1"
