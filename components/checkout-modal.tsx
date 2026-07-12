@@ -253,7 +253,7 @@ export function CheckoutModal({ isOpen, onClose, productName, selectedColor, onS
             <h2 className="text-2xl font-bold text-white">Secure Your Airdeks Workspace</h2>
             <p className="mt-2 text-sm text-slate-300">
               Complete your shipping profile below to reserve your{' '}
-              <span className="font-semibold text-emerald-400">{productDisplayName}</span>. No credit card or advance
+              <span className="font-semibold text-emerald-400">{productDisplayName}</span>. No advance
               digital payment required.
             </p>
           </div>
@@ -438,7 +438,7 @@ export function CheckoutModal({ isOpen, onClose, productName, selectedColor, onS
                 </p>
 
                 <p>
-                  <span className="font-semibold text-white">Our Trust Promise:</span> Our team takes genuine pride in every single workstation that leaves our facility, which is why we require ��0 upfront.
+                  <span className="font-semibold text-white">Our Trust Promise:</span> Our team takes genuine pride in every single workstation that leaves our facility, which is why we require ₹0 upfront.
                 </p>
               </div>
             </div>
