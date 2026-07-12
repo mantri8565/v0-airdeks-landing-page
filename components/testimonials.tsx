@@ -116,9 +116,9 @@ export function Testimonials() {
   useEffect(() => {
     // Initialize scroll position to the middle set of testimonials
     if (scrollContainerRef.current && !isResetRef.current) {
-      const cardWidth = 400 // md:min-w-96 is approximately 400px
+      const containerWidth = scrollContainerRef.current.clientWidth
       const gapWidth = 24 // gap-6 is 24px
-      const itemWidth = cardWidth + gapWidth
+      const itemWidth = containerWidth + gapWidth
       const initialScroll = itemWidth * testimonials.length
       
       scrollContainerRef.current.scrollLeft = initialScroll
@@ -129,20 +129,16 @@ export function Testimonials() {
   const handleScroll = () => {
     if (scrollContainerRef.current) {
       const { scrollLeft, scrollWidth, clientWidth } = scrollContainerRef.current
+      const gapWidth = 24 // gap-6 is 24px
+      const itemWidth = clientWidth + gapWidth
       
       // Check if we've scrolled to the end, if so loop back to start
       if (scrollLeft >= scrollWidth - clientWidth - 20) {
         // Reset to beginning of middle set
-        const cardWidth = 400
-        const gapWidth = 24
-        const itemWidth = cardWidth + gapWidth
         scrollContainerRef.current.scrollLeft = itemWidth * testimonials.length
       } 
       // Check if we've scrolled to the beginning, if so loop to end
       else if (scrollLeft <= 20) {
-        const cardWidth = 400
-        const gapWidth = 24
-        const itemWidth = cardWidth + gapWidth
         scrollContainerRef.current.scrollLeft = itemWidth * testimonials.length * 2 - itemWidth
       }
 
@@ -154,7 +150,7 @@ export function Testimonials() {
 
   const scroll = (direction: 'left' | 'right') => {
     if (scrollContainerRef.current) {
-      const scrollAmount = 400
+      const scrollAmount = scrollContainerRef.current.clientWidth + 24 // clientWidth + gap
       scrollContainerRef.current.scrollBy({
         left: direction === 'left' ? -scrollAmount : scrollAmount,
         behavior: 'smooth',
@@ -228,11 +224,12 @@ export function Testimonials() {
             onScroll={handleScroll}
             onTouchStart={handleTouchStart}
             onTouchEnd={handleTouchEnd}
-            className="overflow-x-auto pb-4 scrollbar-hide"
+            className="overflow-x-auto pb-4 scrollbar-hide scroll-smooth"
+            style={{ scrollSnapType: 'x mandatory' }}
           >
             <div className="flex gap-6">
               {loopedTestimonials.map((testimonial, index) => (
-                <div key={`${testimonial.id}-${index}`} className="min-w-full md:min-w-96">
+                <div key={`${testimonial.id}-${index}`} className="min-w-full md:min-w-96 flex-shrink-0" style={{ scrollSnapAlign: 'start', scrollSnapStop: 'always' }}>
                   <TestimonialCard testimonial={testimonial} />
                 </div>
               ))}
