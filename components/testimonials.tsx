@@ -116,9 +116,10 @@ export function Testimonials() {
   useEffect(() => {
     // Initialize scroll position to the middle set of testimonials
     if (scrollContainerRef.current && !isResetRef.current) {
-      const containerWidth = scrollContainerRef.current.clientWidth
+      const isMobile = window.innerWidth < 768
+      const cardWidth = isMobile ? 320 : 384 // w-80 = 320px, md:w-96 = 384px
       const gapWidth = 24 // gap-6 is 24px
-      const itemWidth = containerWidth + gapWidth
+      const itemWidth = cardWidth + gapWidth
       const initialScroll = itemWidth * testimonials.length
       
       scrollContainerRef.current.scrollLeft = initialScroll
@@ -129,8 +130,10 @@ export function Testimonials() {
   const handleScroll = () => {
     if (scrollContainerRef.current) {
       const { scrollLeft, scrollWidth, clientWidth } = scrollContainerRef.current
+      const isMobile = window.innerWidth < 768
+      const cardWidth = isMobile ? 320 : 384 // w-80 = 320px, md:w-96 = 384px
       const gapWidth = 24 // gap-6 is 24px
-      const itemWidth = clientWidth + gapWidth
+      const itemWidth = cardWidth + gapWidth
       
       // Check if we've scrolled to the end, if so loop back to start
       if (scrollLeft >= scrollWidth - clientWidth - 20) {
@@ -150,7 +153,9 @@ export function Testimonials() {
 
   const scroll = (direction: 'left' | 'right') => {
     if (scrollContainerRef.current) {
-      const scrollAmount = scrollContainerRef.current.clientWidth + 24 // clientWidth + gap
+      const isMobile = window.innerWidth < 768
+      const cardWidth = isMobile ? 320 : 384 // w-80 = 320px, md:w-96 = 384px
+      const scrollAmount = cardWidth + 24 // card width + gap
       scrollContainerRef.current.scrollBy({
         left: direction === 'left' ? -scrollAmount : scrollAmount,
         behavior: 'smooth',
@@ -229,7 +234,7 @@ export function Testimonials() {
           >
             <div className="flex gap-6">
               {loopedTestimonials.map((testimonial, index) => (
-                <div key={`${testimonial.id}-${index}`} className="min-w-full md:min-w-96 flex-shrink-0" style={{ scrollSnapAlign: 'start', scrollSnapStop: 'always' }}>
+                <div key={`${testimonial.id}-${index}`} className="w-80 flex-shrink-0 md:w-96" style={{ scrollSnapAlign: 'start', scrollSnapStop: 'always' }}>
                   <TestimonialCard testimonial={testimonial} />
                 </div>
               ))}
